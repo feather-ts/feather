@@ -1,0 +1,65 @@
+baseurl = "/"
+languageCode = "en-us"
+title = "Feather TS"
+theme = "feather-ts"
+metadataformat = "yaml"
+canonifyurls = true
+relativeURLS = true
+
+ignoreFiles = ["^/app/"]
+
+# Enable Google Analytics by entering your tracking id
+googleAnalytics = "UA-84969611-1"
+
+[params]
+	# General information
+	author = "Andreas Herd"
+	description = "Feather TS - official Website"
+	copyright = ""
+
+	# Repository
+	provider = "GitHub"
+	repo_url = "https://github.com/mendrik/feather"
+
+	version = "ᵃˡᵖʰᵃ"
+	logo = "images/logo.svg"
+	favicon = ""
+
+	permalink = "#"
+
+	# Custom assets
+	custom_css = ["css/tweaks.css"]
+	custom_js  = []
+
+	# Syntax highlighting theme
+	highlight_css  = ""
+
+[social]
+	twitter = ""
+	github  = "mendrik"
+	email   = "mendrik76@gmail.com"
+
+[[menu.main]]
+	name   = "Get started"
+	url    = "get-started/"
+	weight = 10
+
+[[menu.main]]
+	name   = "Decorators"
+	url    = "decorators/"
+	weight = 20
+
+[[menu.main]]
+	name   = "Examples"
+	url    = "examples/"
+	weight = 30
+
+[[menu.main]]
+	name   = "Packaging"
+	url    = "packaging/"
+	weight = 40
+
+[[menu.main]]
+	name   = "Help"
+	url    = "help/"
+	weight = 50
