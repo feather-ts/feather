@@ -18,7 +18,7 @@
       
       <guid>/examples/</guid>
       <description>Routing Routing is simply done by having one page container component with a bunch of @Route() decorated methods and one single-item array binding for the pages to show. Now from within the routing methods replace the array item with a new page.
-myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splice(0, 1, new LoginPage()) } @Route(&#39;/project/:id&#39;) onPath(params) { const project = await this.fetchProject(params.id) this.myPage.splice(0, 1, new ProjectPage(project)) }  Swapping components This can be also achieved by swapping elements in an array@</description>
+myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splice(0, 1, new LoginPage()) } @Route(&#39;/project/:id&#39;) onPath(params) { const project = await this.fetchProject(params.id) this.myPage.splice(0, 1, new ProjectPage(project)) }  Swapping components This can be also achieved by swapping elements in an array</description>
     </item>
     
   </channel>

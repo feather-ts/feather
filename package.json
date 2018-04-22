@@ -43,6 +43,7 @@
         "clean": "rimraf dist",
         "npm:version": "npm --no-git-tag-version version patch",
         "feather:compile": "tsc -d",
+        "docs": "(cd docs-src) && (hugo -d ../docs)",
         "prepare": "npm-run-all clean npm:version feather:compile",
         "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"
     },

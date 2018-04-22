@@ -25,7 +25,7 @@ onPath(params) {
 ```
 
 ## Swapping components
-This can be also achieved by swapping elements in an array@
+This can be also achieved by swapping elements in an array
 ```typescript
 wichComponent = 0
 components = [new Component1(), new Component2()]
