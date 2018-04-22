@@ -106,7 +106,7 @@ const handler = (arrayType?: () => ArrayWidget) => (widget: AnyWidget) => {
     }
 }
 
-export const LocalStorage = (arrayType?: () => ArrayWidget) => (proto: Widget, property: string) => {
+export const LocalStorage = (arrayType?: () => ArrayWidget) => (proto: AnyWidget, property: string) => {
     ensure(localStorageProperties, proto, [property])
     addToConstructorQueue(proto.constructor as EnhancedConstructor, handler(arrayType))
 }
