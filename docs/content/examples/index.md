@@ -115,4 +115,10 @@ class LocalizedToken implements Widget {
 }
 ```
 
- postcss-import postcss-mixins postcss-nested postcss-calc postcss-clean
+## TodoMVC
+
+Someone once joked that UI frameworks are tools to add todo items
+efficiently to a list. Feather also comes with a demo of the famous
+[todo app](https://github.com/feather-ts/todomvc). Check out also
+the source code to see how easy the application looks like and 
+how little framework boilerplate it contains.

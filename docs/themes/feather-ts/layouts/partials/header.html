@@ -7,9 +7,11 @@
     </a>
   </div>
   <div class="bar search">
-    <label for="search" class="fa fa-search">
-      <input type="text" id="search" autocomplete="off" placeholder="Search github issues">
-    </label>
+      <form action="https://github.com/feather-ts/feather/issues" method="get">
+        <label for="search" class="fa fa-search">
+           <input id ="search" type="text" name="q" autocomplete="off" placeholder="Search github issues" value="is:issue is:open">
+        </label>
+      </form>
   </div>
 </nav>
 <div class="drawer">

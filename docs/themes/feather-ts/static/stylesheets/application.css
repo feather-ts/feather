@@ -1,12 +1,16 @@
-h1, h5 {
+h1,
+h5 {
     text-align: center
 }
 
-code, h2 > span {
+code,
+h2 > span {
     color: #ceb7b7
 }
 
-.fa, nav.toc > ul > li a:before, table i {
+.fa,
+nav.toc > ul > li a:before,
+table i {
     text-rendering: auto;
     -moz-osx-font-smoothing: grayscale
 }
@@ -73,7 +77,10 @@ a {
     -webkit-font-smoothing: antialiased
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
     font-weight: 300
@@ -96,7 +103,8 @@ h3 {
     font-weight: 400
 }
 
-h4, h5 {
+h4,
+h5 {
     font-size: 100%
 }
 
@@ -108,30 +116,32 @@ h5 {
     font-weight: 100
 }
 
-pre > code.language-json.hljs, pre > code.language-typescript.hljs {
+pre > code.language-json.hljs,
+pre > code.language-typescript.hljs {
     font-size: 80%;
     padding: 20px 3000px;
     margin: 0 -3000px;
     border-top: 1px solid rgba(0, 0, 0, .13);
     border-bottom: 1px solid rgba(214, 185, 209, .13);
-    max-width: 100%
+    max-width: 100%;
 }
 
-pre > code.language-json.hljs::-webkit-scrollbar, pre > code.language-typescript.hljs::-webkit-scrollbar {
-    display: none
+pre > code.language-json.hljs::-webkit-scrollbar,
+pre > code.language-typescript.hljs::-webkit-scrollbar {
+    display: none;
 }
 
 code {
     font-size: 80%;
-    font-family: monospace
+    font-family: monospace;
 }
 
 .wrapper ul > li a, p a {
-    color: #df7100
+    color: #df7100;
 }
 
 p:first-letter {
-    font-weight: 400
+    font-weight: 400;
 }
 
 .wrapper ul {
@@ -141,7 +151,7 @@ p:first-letter {
     background-image: url(/images/bullet_bg.svg);
     background-size: 10px 100%;
     background-position: 0 0;
-    background-repeat: no-repeat
+    background-repeat: no-repeat;
 }
 
 .wrapper ul > li {
@@ -150,10 +160,11 @@ p:first-letter {
     display: flex;
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
-    align-items: stretch
+    align-items: stretch;
 }
 
-#logo, #logo a {
+#logo,
+#logo a {
     display: block
 }
 
@@ -178,21 +189,21 @@ blockquote {
     border-left: 3px solid #DF7100;
     margin: 0;
     padding: 10px 20px 10px 30px;
-    background-color: #342B3A
+    background-color: #342B3A;
 }
 
 blockquote > p {
     margin: 0;
-    color: #DFAB9C
+    color: #DFAB9C;
 }
 
 nav.pagination .page, nav.toc > ul > li a.current {
-    color: #fff
+    color: #fff;
 }
 
 em {
     padding-right: 2px;
-    display: inline-block
+    display: inline-block;
 }
 
 #logo {
@@ -218,24 +229,28 @@ nav.toc > ul {
 nav.toc > ul > li {
     -webkit-box-flex: 0;
     -ms-flex: none;
-    flex: none
+    flex: none;
 }
 
-@media (max-width: 570px) {
+#search {
+    color: #ad94a8;
+}
+
+@media (max-width:570px) {
     nav.toc > ul > li a:before {
-        font-size: 20px
+        font-size: 20px;
     }
 
     nav.toc > ul > li:nth-child(4) {
-        display: none
+        display: none;
     }
 
     label[for=search] input {
-        max-width: 150px
+        max-width: 150px;
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width:460px) {
     nav.toc > ul > li:nth-child(6) {
         display: none
     }
@@ -260,42 +275,42 @@ nav.toc > ul > li a:before {
     font: normal normal normal 14px/1 FontAwesome;
     font-size: 30px;
     -webkit-font-smoothing: antialiased;
-    margin-bottom: 5px
+    margin-bottom: 5px;
 }
 
 nav.toc > ul > li a.current:before {
     text-shadow: 0 0 30px rgba(253, 229, 255, .4)
 }
 
-nav.toc > ul > li a[title="Get started"]:before {
-    content: "\f06c"
+nav.toc > ul > li a[title='Get started']:before {
+    content: '\f06c'
 }
 
 nav.toc > ul > li a[title=Decorators]:before {
-    content: "\f1b3"
+    content: '\f1b3';
 }
 
 nav.toc > ul > li a[title=Examples]:before {
-    content: "\f29c"
+    content: '\f29c';
 }
 
 nav.toc > ul > li a[title=Packaging]:before {
-    content: "\f187"
+    content: '\f187';
 }
 
 nav.toc > ul > li a[title=Help]:before {
-    content: "\f0fa"
+    content: '\f0fa';
 }
 
 nav.subnavigation:empty {
-    display: none
+    display: none;
 }
 
 ul.subnavigation {
-    font-family: 'Josefin Sans Thin', sans-serif
+    font-family: 'Josefin Sans Thin', sans-serif;
 }
 
-@media (min-width: 768px) {
+@media (min-width:768px) {
     ul.subnavigation {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -435,11 +450,11 @@ table i {
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     -webkit-font-smoothing: antialiased;
-    color: #DF7100
+    color: #DF7100;
 }
 
 table i:before {
-    content: "\f00c"
+    content: '\f00c'
 }
 
 button {
@@ -448,10 +463,12 @@ button {
     border: 1px solid #ccb6c8;
     border-radius: 3px;
     outline: 0;
-    padding: 5px 10px
+    padding: 5px 10px;
 }
 
-*, :after, :before {
+*,
+:after,
+:before {
     -webkit-box-sizing: border-box;
-    box-sizing: border-box
+    box-sizing: border-box;
 }
