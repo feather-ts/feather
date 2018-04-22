@@ -81,7 +81,9 @@ Binding to attributes `checked` or `value` will set the bound property value via
 
 When binding a method inside a template `{{myMethod}}` you need to tell feather which properties the method relies on to
 evaluate its return value. This is done via the props arguments. Now whenever any of the properties changes it will redraw
-the function binding.
+the function binding. 
+
+> There is no need to add array properties to props.
 
 ## On
 
