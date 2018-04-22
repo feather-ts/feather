@@ -10,3 +10,4 @@ deploy:
   on:
     repo: feather-ts/feather
     branch: master
+    tag: next
