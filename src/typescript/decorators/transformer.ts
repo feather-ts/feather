@@ -7,7 +7,6 @@ export const TransformerRegistry: TypedMap<Function> = {
 
 export const Transformer = () => (proto: AnyWidget, method: string) => {
     addToConstructorQueue(proto.constructor as EnhancedConstructor, (widget: AnyWidget) => {
-        console.debug(`Registering transformer ${method} in ${proto.constructor.name}`)
         TransformerRegistry[method] = widget[method].bind(widget)
     })
 }
