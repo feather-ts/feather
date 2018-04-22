@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2016-04-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/get-started/</loc>
+    <lastmod>2016-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/decorators/</loc>
+    <lastmod>2016-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/examples/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/packaging/</loc>
+    <lastmod>2016-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/help/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/decorators/</loc>
+    <lastmod>2016-04-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/examples/</loc>
+    <lastmod>2016-04-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2016-04-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/get-started/</loc>
+    <lastmod>2016-04-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/help/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/packaging/</loc>
+    <lastmod>2016-04-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

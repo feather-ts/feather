@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js" lang="en-us"> 
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Decorators - Feather TS</title>
+    <meta name="generator" content="Hugo 0.27.1" />
+
+    
+    <meta name="description" content="Feather TS - official Website">
+    
+    <link rel="canonical" href="../decorators/">
+    
+    <meta name="author" content="Andreas Herd">
+    
+
+    <meta property="og:url" content="/decorators/">
+    <meta property="og:title" content="Feather TS">
+    <meta property="og:image" content="/images/logo.svg">
+    <meta name="apple-mobile-web-app-title" content="Feather TS">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="../stylesheets/application.css">
+    
+  </head>
+  <body class=" ">
+
+
+
+
+
+
+
+
+<div id="page">
+
+    <header class="header">
+        <nav id="header" aria-label="Header">
+  <div id="logo">
+    <a href="../" class="project">
+        
+          <img src="../images/logo.svg">
+        
+    </a>
+  </div>
+  <div class="bar search">
+      <form action="https://github.com/feather-ts/feather/issues" method="get">
+        <label for="search" class="fa fa-search">
+           <input id ="search" type="text" name="q" autocomplete="off" placeholder="Search github issues" value="is:issue is:open">
+        </label>
+      </form>
+  </div>
+</nav>
+<div class="drawer">
+  <nav class="toc" aria-label="Navigation">
+    
+    <ul>
+        
+
+
+
+
+<li>
+  
+    
+
+<a  title="Get started" href="../get-started/">
+	
+	Get started
+</a>
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+<a class="current" title="Decorators" href="../decorators/">
+	
+	Decorators
+</a>
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+<a  title="Examples" href="../examples/">
+	
+	Examples
+</a>
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+<a  title="Packaging" href="../packaging/">
+	
+	Packaging
+</a>
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+<a  title="Help" href="../help/">
+	
+	Help
+</a>
+
+  
+</li>
+
+
+    </ul>
+    
+</nav>
+
+</div>
+
+
+    </header>
+
+    <main class="main">
+        <article class="article">
+            <nav class="wrapper">
+                <h1>Decorators </h1>
+                <nav class="subnavigation"></nav>
+                
+
+<h2 id="construct">Construct</h2>
+
+<p><code>@Construct({selector: string, singleton: boolean})</code></p>
+
+<p>The only class decorator in feather that indicates where in the DOM this component should be mounted to. You can mount
+components to arbitrary css selectors, which allows to create mixins of components. The singleton flag is used in
+combination with the <code>@Inject</code> decorator.
+Each widget should implement the interface <code>Widget</code> or <code>ArrayWidget</code> respectively.</p>
+
+<h2 id="inject">Inject</h2>
+
+<p><code>@Inject()</code></p>
+
+<p>If you have a component flagged as a singleton in @Construct() you can inject it into any other component via @Inject. Please
+note that the property name must match the decapitalized class name of your widget. If the singleton is called MyApp, then
+you should use <code>@Inject() myApp: MyApp</code>.</p>
+
+<h2 id="template">Template</h2>
+
+<p><code>@Template(name?: string)</code></p>
+
+<p>Each widget should have at least one method decorated with <code>@Template()</code>. The name parameter is optional but can be used
+to declare different markup versions of the same widget. This can be later used to render the same array in two different
+ways or when doing responsive components beyond the css capabilities. The method name is irrelevant but it should return
+a string with the markup.</p>
+
+<h3 id="array-bindings">Array bindings</h3>
+
+<p>One special case of bindings applies to array properties. This be bound in the simplest cases like this:<code>&lt;ul {{myArrayProperty}}/&gt;</code>.</p>
+
+<blockquote>
+<p>Please note that the array <em>must</em> contain other widgets of the type <code>ArrayWidget</code>. ArrayWidget must also have only one root element
+in their @Template decorated method.</p>
+</blockquote>
+
+<p>Like with other property bindings you can use transformers here - to show the array&rsquo;s size for example. However, if the transformer returns a function
+it is used to filter array elements from the dom. Let&rsquo;s have a look:</p>
+
+<pre><code class="language-typescript">myArray = [new ArrayItem(), new ArrayItem()]
+
+@Template()
+markUp() {
+  &lt;ul {{myArray:onlyEven}}/&gt;
+  &lt;span&gt;Size of the array: {{myArray:size}}&lt;/span&gt;
+}
+
+onlyEven = () =&gt; (el: ArrayItem, idx: number) =&gt; idx % 2 == 0
+size = (arr: any[]) =&gt; arr.length // or this.myArray.length
+</code></pre>
+
+<p>Now let&rsquo;s assume ArrayItem has two decorated methods one with <code>@Template('a')</code> and one with <code>@Template('b')</code>. You can tell the array binding which
+template to use when rendering its children by simply adding a <code>template=&quot;a&quot;</code> attribute to the binding:</p>
+
+<pre><code class="language-typescript">@Template()
+markUp() {
+  &lt;ul {{myArray:onlyEven}} template=&quot;a&quot;/&gt;
+  &lt;ul {{myArray}} template=&quot;b&quot;/&gt;
+}
+</code></pre>
+
+<p>This will render the same array twice, once with only even elements and via template A and once the full array where each child is rendered with template B.</p>
+
+<h3 id="boolean-attribute-bindings">Boolean attribute bindings</h3>
+
+<p>A special case are boolean properties bound in attributes: <code>&lt;span hidden=&quot;{{isHidden}}&quot;/&gt;</code>. If they are true the attribute is a value less property:
+<code>&lt;span hidden/&gt;</code> and just <code>&lt;span/&gt;</code>, if false.</p>
+
+<h3 id="string-attribute-bindings">String attribute bindings</h3>
+
+<p>When strings are bound to attrbutes or inside a class attrbute, each will be removed repectively when the property evaluates to <code>undefined</code>.</p>
+
+<h3 id="special-attrbutes">Special attrbutes</h3>
+
+<p>Binding to attributes <code>checked</code> or <code>value</code> will set the bound property value via javascript and not via dom.</p>
+
+<h2 id="computed">Computed</h2>
+
+<p><code>@Computed(...props: string[])</code></p>
+
+<p>When binding a method inside a template <code>{{myMethod}}</code> you need to tell feather which properties the method relies on to
+evaluate its return value. This is done via the props arguments. Now whenever any of the properties changes it will redraw
+the function binding.</p>
+
+<h2 id="on">On</h2>
+
+<pre><code class="language-typescript">@On({
+  event?: string | string[],
+  selector?: string, 
+  preventDefault?: boolean, 
+  scope?: Scope, 
+  options?: boolean | AddEventListenerOptions
+})
+</code></pre>
+
+<p><code>event</code> can be either a string or an array of strings, for example &lsquo;click&rsquo; or [&lsquo;focusout&rsquo;, &lsquo;blur&rsquo;]. If event is not present
+it will have the value of the method name. For simplicity you can write <code>On({}) click() {...}</code>
+<code>selector</code> a css selector that should match an element inside the template. If present event&rsquo;s will on fire if the event.target
+matches this selector. If it is not set at all the event fires directly on the root element of the template
+<code>preventDefault</code> small helper to call ev.preventDefault() before your widget&rsquo;s method is invoked
+<code>scope</code> Defaults to Scope.Delegate. If set to Scope.Direct the event is bound directly the the element matching the selector.</p>
+
+<blockquote>
+<p>One special scope is Scope.UntilMatch. Usually event lookup stops at the root element, but here we can listen to events that
+were fired on widgets further down the dom tree.</p>
+</blockquote>
+
+<p><code>options</code> Default event listener options or capture flag. See w3c specs for further details.</p>
+
+<h2 id="fetch">Fetch</h2>
+
+<p><code>@Get(), @Post(), @Delete(), @Put()</code></p>
+
+<p>Four decorators that invoke fetch to communicate with your backend. Each of them takes the fetch <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request/Request">config</a> extended by two additional values <code>{..., url: string, processor?: (req: Response) =&gt; any}</code>. Processor is set to
+<code>(res) =&gt; res.json()</code> by default to allow json based calls.
+You can load data in two ways. Either you use <code>await</code> and leave the method empty:</p>
+
+<pre><code class="language-typescript">init(el: Element) {
+  const data = await this.fetchData()
+  // do stuff with data
+  render(this, el)
+}
+
+@Get({url: '/server/data'})
+async fetchData() {}
+
+</code></pre>
+
+<p>Or you process your data in the fetchData, which requires you to change the signature like so:</p>
+
+<pre><code class="language-typescript">init(el: Element) {
+  this.fetchData()  
+}
+
+@Get({url: '/server/data'})
+fetchData(res?: MyData) {
+  // do stuff with data
+  render(this, el)
+}
+</code></pre>
+
+<p>Sending data to your backend is done in a similar way except that you invoke your decorated method with the payload</p>
+
+<pre><code class="language-typescript">this.postData(dataToPost)
+...
+
+@Post(...)
+postData(postedData, res?: Result) {...}
+</code></pre>
+
+<p>To catch fetch errors annotate any method with</p>
+
+<pre><code class="language-typescript">@FetchError(status: number)
+onError(err: Error) {....}
+</code></pre>
+
+<h2 id="local-storage">Local storage</h2>
+
+<p>Feather comes with built-in local storage support which makes it very easy to keep the UI state between page loads.
+There are two essential decorators:</p>
+
+<p><code>@LocalStorage()</code></p>
+
+<p>This can be used to store properties of a widget into local storage. The storage key <code>&lt;parent.property&gt;</code> is calculated automatically.
+If your widget has a property or method called <code>id</code>, <code>name</code>, <code>title</code> it will use that to get the parent token for the key. If not, it
+will default to the class name.</p>
+
+<p>There is one exception when using this decorator with arrays. We need to tell feather which prototype to use to recreate the children.
+For technical reasons of import orders we need to use a function to that: <code>@LocalStorage(() =&gt; MyChildClass) items: MyChildClass[] = []</code></p>
+
+<p>In a second step we need to tell feather which properties inside of MyChildClass should be serialized. This can be done by decorating
+them with <code>@Storable()</code> inside the MyChildClass.</p>
+
+<h2 id="media-query">Media Query</h2>
+
+<p><code>@MediaQuery(mediaquery)</code></p>
+
+<p>Decorate methods with this and the method will be called whenever the media query parameter matches or the view port resizes to match it.
+Usually used instead of the init() method, like so:</p>
+
+<pre><code class="language-typescript">@Construct({selector: '.something'})
+export class Responsive implements Widget {
+
+    init = (el: Element) =&gt; 0
+
+    @MediaQuery('all and (max-width: 768px)')
+    mobile(el: Element) {
+        render(this, el, 'mobile')
+    }
+
+    @MediaQuery('all and (min-width: 768px)')
+    desktop(el: Element) {
+        render(this, el, 'desktop')
+    }
+
+    @Template('desktop')
+    markup1() {
+        return `desktop&lt;icon icon=&quot;bla&quot;/&gt;`
+    }
+
+    @Template('mobile')
+    markup2() {
+        return `mobile`
+    }
+}
+</code></pre>
+
+<h2 id="router">Router</h2>
+
+<p><code>@Route('/:path')</code></p>
+
+<p>Triggers when the route matches the current location. Feather supports hash based urls but also HTML5&rsquo;s history API. If you want to enable hash based routing add an attribute <code>routing=&quot;hash&quot;</code> anywhere in your document. For example <code>&lt;html routing=&quot;hash&quot;&gt;</code>.</p>
+
+<p>Route parsing is very basic and supports only :path and *path tokens. The called method is passed an object where the properties correspond to the named tokens in the route</p>
+
+<pre><code class="language-typescript">  interface MyRoute {
+    path: string
+    id: string
+  }  
+  ....
+  @Route('/:path/:id')
+  locationPath(route: MyRoute) {
+    // ...
+  }
+</code></pre>
+
+<p>When using historyAPI make sure all your document urls load the original document on the server-side. Unlike with hash routing links must be intercepted and manually routed. The routing module exposes one method <code>navigate(path)</code> which can be used to navigate to new routes.</p>
+
+<h2 id="template-node">Template node</h2>
+
+<p><code>@TemplateNode()</code></p>
+
+<p>A small helper that will populate properties decorated with this with elements from within the template. The property is only available
+after render() was called.</p>
+
+<h2 id="transformer">Transformer</h2>
+
+<p><code>@Transformer()</code></p>
+
+<p>You can place transformers anywhere across your widget classes as long as you decorate them with this.</p>
+
+                <footer class="footer">
+                    
+
+<nav class="pagination" aria-label="Footer">
+
+    <div class="previous">
+        
+        <a href="../get-started/" title="Getting started">
+            <span class="direction"><i class="fa fa-angle-left"></i> Previous</span>
+            <div class="page">Getting started</div>
+        </a>
+        
+    </div>
+
+    <div class="next">
+        
+        <a href="../examples/" title="Examples">
+            <span class="direction">Next <i class="fa fa-angle-right"></i></span>
+            <div class="page">Examples</div>
+        </a>
+        
+    </div>
+</nav>
+
+
+
+
+<a href="https://github.com/mendrik/feather" target="_blank" title="@Page(&#34;Decorators&#34;) on GitHub">
+    <i class="fa fa-github"></i> source code on github
+</a>
+
+                </footer>
+            </div>
+        </article>
+
+        <div class="results" role="status" aria-live="polite">
+            <div class="scrollable">
+                <div class="wrapper">
+                    <div class="meta"></div>
+                    <div class="list"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+    
+      <script>
+        (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
+          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
+          m.parentNode.insertBefore(a,m)
+        })(window, document,
+          'script', '//www.google-analytics.com/analytics.js', 'ga');
+         
+        ga('create', 'UA-84969611-1', 'auto');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+      </script>
+    
+    <link rel="stylesheet" href="../stylesheets/highlight/solarized-dark.css">
+    <script src="../javascripts/highlight.pack.js"></script>
+    <script>hljs.initHighlighting();</script>
+</body>
+</html>
+

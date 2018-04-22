@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Decorators on Feather TS</title>
+    <link>/decorators/</link>
+    <description>Recent content in Decorators on Feather TS</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 04 Apr 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/decorators/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Decorators</title>
+      <link>/decorators/</link>
+      <pubDate>Mon, 04 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/decorators/</guid>
+      <description>Construct @Construct({selector: string, singleton: boolean})
+The only class decorator in feather that indicates where in the DOM this component should be mounted to. You can mount components to arbitrary css selectors, which allows to create mixins of components. The singleton flag is used in combination with the @Inject decorator. Each widget should implement the interface Widget or ArrayWidget respectively.
+Inject @Inject()
+If you have a component flagged as a singleton in @Construct() you can inject it into any other component via @Inject.</description>
+    </item>
+    
+  </channel>
+</rss>
