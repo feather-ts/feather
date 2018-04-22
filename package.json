@@ -1,10 +1,11 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.32",
+    "version": "2.0.33",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
     "main": "dist/feather.js",
+    "module": "dist/feather.es6.js",
     "files": [
         "dist"
     ],
@@ -21,14 +22,17 @@
         "mocha": "5.1.0",
         "node-storage-shim": "1.0.1",
         "npm-run-all": "4.1.2",
-        "parcel-bundler": "1.7.1",
-        "parcel-plugin-typescript": "0.7.0",
         "parse5": "4.0.0",
         "postcss": "6.0.21",
         "postcss-cssnext": "3.1.0",
         "postcss-import": "11.1.0",
         "postcss-nested": "3.0.0",
         "rimraf": "2.6.2",
+        "rollup-plugin-commonjs": "^9.1.0",
+        "rollup-plugin-node-resolve": "^3.3.0",
+        "rollup-plugin-postcss": "^1.6.1",
+        "rollup-plugin-typescript2": "^0.13.0",
+        "rollup-plugin-url": "^1.4.0",
         "sinon": "4.5.0",
         "stylelint": "9.2.0",
         "ts-node": "5.0.1",
@@ -44,7 +48,8 @@
         "npm:version": "npm --no-git-tag-version version patch",
         "feather:compile": "tsc -d",
         "docs": "(cd docs-src) && (hugo -d ../docs)",
-        "prepare": "npm-run-all clean npm:version feather:compile",
+        "bundle": "rollup -c",
+        "prepare": "npm-run-all clean npm:version feather:compile bundle",
         "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"
     }
 }
