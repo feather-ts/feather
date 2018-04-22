@@ -1,11 +1,10 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.34",
+    "version": "2.0.35",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
     "main": "dist/feather.js",
-    "module": "dist/feather.es6.js",
     "files": [
         "dist"
     ],
