@@ -1,6 +1,6 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.28",
+    "version": "2.0.29",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
@@ -45,5 +45,9 @@
         "feather:compile": "tsc -d",
         "prepare": "npm-run-all clean npm:version feather:compile",
         "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"
+    },
+    "dependencies": {
+        "custom-event-polyfill": "^0.3.0",
+        "polyfill-array-includes": "^1.0.0"
     }
 }
