@@ -5,10 +5,8 @@ title: Help
 
 ## IE11 support
 Feather-ts comes without old browser support. However it does work
-with IE11, if polyfills are provided. A minimal polyfill can be
-imported via `import '@feather-ts/feather-dist/polyfills'`. 
-Additionally you will need to add Promise and Fetch polyfills
-yourself.
+with IE11, if polyfills are provided. You will need es6 shims,
+Promise, Fetch and CustomEvent polyfills.
 
 ## Bindings and DOM writes
 Feather has no virtual dom, but since the templates are logic less
