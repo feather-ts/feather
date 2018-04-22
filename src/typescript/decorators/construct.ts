@@ -39,7 +39,6 @@ export const Construct = (conf: ConstructConf) => (proto: any) => {
     ConstructRegistry[conf.selector] = proto as Widget
     addToConstructorQueue(proto as EnhancedConstructor, (widget: Widget, node: Element) => {
         if (conf.singleton === true) {
-            console.log('name ' + widget.constructor.name)
             const name = decapitalize(widget.constructor.name)
             Singletons[name] = widget
             registerCleanUp(node, () => {
