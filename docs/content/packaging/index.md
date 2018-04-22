@@ -7,7 +7,3 @@ title: Packaging & Deploying
 You can use browserify, parcel-bundler or any other existing technology to pack and 
 bundle feather applications.
 
-## Tutorials
-
-Coming soon
-

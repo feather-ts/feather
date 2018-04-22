@@ -242,5 +242,5 @@ after render() was called.
 
 `@Transformer()`
 
-You can place binding transformers anywhere accros your widget classes as long as you decorate them with this.
+You can place transformers anywhere across your widget classes as long as you decorate them with this.
 

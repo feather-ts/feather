@@ -174,10 +174,12 @@ const bindTemplateInfos = (template: ParsedTemplate, widget: AnyWidget, updateTe
         if (info.type === TemplateTokenType.TAG) {
             bindWidget(widget, info, template.nodes[info.position])
         }
-        else if (Array.isArray(value) && info.type === TemplateTokenType.PROPERTY) {
-            arrayListeners.push(
-                bindArray(value, widget, info, template, () => updateTemplate(false))
-            )
+        else if (info.type === TemplateTokenType.PROPERTY) {
+            if (Array.isArray(value)) {
+                arrayListeners.push(
+                    bindArray(value, widget, info, template, () => updateTemplate(false))
+                )
+            }
         }
         else if (isFunction(value)) {
             createComputedListener(widget, info, updateTemplate)

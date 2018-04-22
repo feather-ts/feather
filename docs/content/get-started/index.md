@@ -5,7 +5,7 @@ title: Getting started
 
 ## Installation
 
-`npm install feather-ts --save-dev`
+`npm install feather-ts --save`
 
 ## Components
 
@@ -103,3 +103,13 @@ in a row like so: ```{{myprop:tohyphens:uppercase}}```.
 
 Since this is the only syntax added to regular HTML the template is easy to read and understand even months
 after writing the code.
+
+### Sub-components
+
+In the above example <my-component/> will create a new instance of a sub component, provided there is a  @Construct 
+selector set to 'my-component'. You can pass data from the current widget by simple attribute bindings, like so:
+`<my-component attr1={{prop1}} attr2={1+1}/>`. Single curlies will evaluate to a static value; this is useful for 
+passing down numbers or booleans. If `prop1` is a function it is passed dowm as such but with the context bound to 
+the current widget.
+
+### Toggling elements
