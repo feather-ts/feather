@@ -49,22 +49,19 @@ if (!String.prototype.startsWith) {
     const $indexOf = String.prototype.indexOf
 
     String.prototype.startsWith = function (search) {
-        /*! http://mths.be/startswith v0.1.0 by @mathias */
         const string = String(this)
         if (this == null || $toString.call(search) === '[object RegExp]') {
             throw TypeError()
         }
         const stringLength = string.length
         const searchString = String(search)
-        const searchLength = searchString.length
         const position = arguments.length > 1 ? arguments[1] : undefined
-        // `ToInteger`
         let pos = position ? Number(position) : 0
         if (isNaN(pos)) {
             pos = 0
         }
         const start = Math.min(Math.max(pos, 0), stringLength)
-        return $indexOf.call(string, searchString, pos) == start
+        return $indexOf.call(string, searchString, pos) === start
     }
 }
 
