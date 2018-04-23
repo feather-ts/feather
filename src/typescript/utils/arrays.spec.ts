@@ -1,4 +1,3 @@
-import {JSDOM} from 'jsdom'
 import {expect} from 'chai'
 import {observeArray, range, removeFromArray} from './arrays'
 import * as Sinon from 'sinon'

@@ -23,7 +23,7 @@ export interface ArrayWidget {
 
 export type AnyWidget = Widget | ArrayWidget
 
-export const start = (root: Element = document.documentElement): Widget[] => {
+export const start = (root: Element|DocumentFragment = document.documentElement): Widget[] => {
     const createdWidgets = []
     Object.keys(ConstructRegistry).forEach(selector => {
         Array.from(root.querySelectorAll(selector)).forEach(node => {
@@ -57,7 +57,9 @@ export const addToConstructorQueue = (constructor: EnhancedConstructor, func: Fu
 
 export const runConstructorQueue = (widget: {}, node: Node) => {
     const widgetQueue = queue.get(Object.getPrototypeOf(widget).constructor) || []
-    widgetQueue.forEach(m => m.call(widget, widget, node))
+    for (let i = 0, n = widgetQueue.length; i < n; i++) { // for performance
+        widgetQueue[i].call(widget, widget, node)
+    }
 }
 
 

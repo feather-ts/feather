@@ -1,8 +1,6 @@
 import {MediaQuery} from '../decorators/media-query'
 import {Template} from '../decorators/template'
 import {Construct, Widget} from '../decorators/construct'
-import './icon'
-import './list-item'
 import {render} from '../core/bind'
 
 @Construct({selector: 'responsive'})
@@ -22,11 +20,17 @@ export class Responsive implements Widget {
 
     @Template('desktop')
     markup1() {
-        return `desktop<icon icon="bla"/>`
+        return `
+        <h2 class="subtitle">Responsive component</h2>
+        <div>Desktop</div>
+        `
     }
 
     @Template('mobile')
     markup2() {
-        return `mobile`
+        return `
+        <h2 class="subtitle">Responsive component</h2>
+        <div>Mobile</div>
+        `
     }
 }

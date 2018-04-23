@@ -17,8 +17,13 @@ export const injectTemplateNodes = (widget: AnyWidget, nodes: Element[]) => {
     const proto = Object.getPrototypeOf(widget)
     const bindings = TemplateNodes.get(proto)
     if (isDef(bindings)) {
-        bindings.forEach(b => {
-            widget[b.property] = nodes.reduce((p, c) => p || c.querySelector(b.selector), null)
-        })
+        for (const b of bindings) {
+            for (const n of nodes) {
+                widget[b.property] = n.querySelector(b.selector)
+                if (widget[b.property] !== null) {
+                    break
+                }
+            }
+        }
     }
 }

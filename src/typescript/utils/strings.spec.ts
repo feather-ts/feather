@@ -1,8 +1,4 @@
-import {JSDOM} from 'jsdom'
 import {expect} from 'chai'
-import {compose, isDef, isFunction, isUndef, throttle} from './functions'
-import {range} from './arrays'
-import * as Sinon from 'sinon'
 import {decapitalize, format} from './strings'
 
 describe('Strings helpers', () => {

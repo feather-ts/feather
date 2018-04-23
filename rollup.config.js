@@ -1,8 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve'
 import tsc from 'rollup-plugin-typescript2'
-import postcss from 'rollup-plugin-postcss'
 import commonjs from 'rollup-plugin-commonjs'
-import url from 'rollup-plugin-url'
 
 import pkg from './package.json'
 
@@ -16,22 +14,29 @@ export default {
             sourcemap: true,
             banner: `/* feather-ts v${pkg.version} */`,
             exports: 'named'
+        },
+        {
+            file: pkg.module,
+            format: 'es',
+            sourcemap: true,
+            banner: `/* feather-ts v${pkg.version} */`,
+            exports: 'named'
         }
     ],
     plugins: [
-        resolve(),
-        postcss(),
-        url(),
+        commonjs(),
+        resolve({
+            browser: true
+        }),
         tsc({
             tsconfigOverride: {
                 compilerOptions: {
                     "module": "ES2015",
                     "target": "es5",
-                    "declaration": true,
+                    "declaration": false
                 },
                 clean: true
             }
         }),
-        commonjs()
     ]
 }

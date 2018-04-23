@@ -1,42 +1,69 @@
-import {JSDOM} from 'jsdom'
 import {expect} from 'chai'
-import {start} from './construct'
+import {Construct, runConstructorQueue, Widget} from './construct'
+import {Template} from './template'
+import {FetchError, Get, Post} from './fetch'
 import * as fetchMock from 'fetch-mock'
-import '../demo/app'
+import Sinon = require('sinon')
 
-let doc, app
-beforeEach(() => {
-    doc = new JSDOM(`<div class="application"/>`).window.document.documentElement
-    const widgets = start(doc)
-    app = widgets[0]
-})
 
 before(() => {
     fetchMock.mock('/get.json', {result: 'get'})
     fetchMock.mock('/post.json', {result: 'post'})
-    fetchMock.mock('/delete.json', {result: 'delete'})
-    fetchMock.mock('/put.json', {result: 'put'})
+    fetchMock.mock('/404.json', 404)
 })
+
+
+@Construct({selector: 'div.event'})
+class FetchWidget implements Widget {
+
+    init = (el) => 0
+
+    @Get({url: '/get.json'})
+    async fetch1() {}
+
+    @Post({url: '/post.json'})
+    async fetch2(postData?: any) {}
+
+    @Post({url: '/404.json'})
+    async fetchFail(postData?: any) {}
+
+    @FetchError(404)
+    fetchError404() {
+    }
+
+    @Template()
+    markup() {
+        return ``
+    }
+}
+
 
 describe('Fetch', () => {
 
-    it('should receive @Get correctly', async () => {
-        const result = await app.get()
-        expect(result).to.have.property('result', 'get')
+    it('should @Get', async () => {
+        const fw = new FetchWidget()
+        runConstructorQueue(fw, null)
+        const getRes = await fw.fetch1()
+        expect(getRes).to.be.deep.equal({result : 'get'})
     })
 
-    it('should receive @Post correctly', async () => {
-        const result = await app.post(app.flower)
-        expect(result).to.have.property('result', 'post')
+    it('should @Post', async () => {
+        const fw = new FetchWidget()
+        runConstructorQueue(fw, null)
+        const postRes = await fw.fetch2({})
+        expect(postRes).to.be.deep.equal({result : 'post'})
     })
 
-    it('should receive @Put correctly', async () => {
-        const result = await app.put(app.flower)
-        expect(result).to.have.property('result', 'put')
+    it('should @Post fail', async () => {
+        const fw = new FetchWidget()
+        const spy = Sinon.spy(fw, 'fetchError404')
+        runConstructorQueue(fw, null)
+        const postRes = await fw.fetchFail({})
+        expect(postRes).to.be.undefined
+        expect(spy.calledOnce).to.be.true
+        expect(spy.calledOn(fw)).to.be.true
+        expect(spy.args[0][0]).to.be.a('Error')
     })
 
-    it('should receive @Delete correctly', async () => {
-        const result = await app.del()
-        expect(result).to.have.property('result', 'delete')
-    })
 })
+

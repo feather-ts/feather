@@ -1,4 +1,3 @@
-import {isDef} from './functions'
 import {AnyWidget} from '../decorators/construct'
 
 export type TypedMap<T> = { [key: string]: T }
@@ -14,11 +13,25 @@ export const getSubset = (keys: string[], obj: {}) =>
 export const isObject = (obj: any): boolean =>
     (obj !== null && typeof(obj) === 'object' && Object.prototype.toString.call(obj) === '[object Object]')
 
-export const deepValue = (obj: {}, path: string): any =>
-    path ? path.split('.').reduce((p, c) => (p && isDef(p[c])) ? p[c] : undefined, obj) : obj
+export const deepValue = (obj: {}, path?: string): any => {
+    if (!path) {
+        return obj
+    }
+    const paths = path.split('.')
+    let current = obj, i, n
+
+    for (i = 0, n = paths.length; i < n; ++i) {
+        if (current[paths[i]] === undefined) {
+            return undefined
+        } else {
+            current = current[paths[i]]
+        }
+    }
+    return current
+}
 
 export const merge = (a: any = {}, b: any): any => {
-    Object.keys(b).forEach(k => {
+    for (const k of Object.keys(b)) {
         const ak = a[k],
               bk = b[k]
         if (Array.isArray(ak)) {
@@ -30,7 +43,7 @@ export const merge = (a: any = {}, b: any): any => {
         else {
             a[k] = bk
         }
-    })
+    }
     return a
 }
 
@@ -61,7 +74,9 @@ export const addPropertyListener = (obj: object, property: string, callback: Pro
             get: () => val,
             set: (newVal) => {
                 val = newVal
-                propertyCallbacks.get(obj)[property].forEach(c => c(property))
+                for (const c of propertyCallbacks.get(obj)[property]) {
+                    c(property)
+                }
                 return val
             }
         })
@@ -73,7 +88,9 @@ export const createObjectPropertyListener = (obj: object, pathStr: string, callb
           property = path.pop(),
           root = deepValue(obj, path.join('.')),
           handler = () => {
-              pathCallbacks.get(obj)[pathStr].forEach(cb => cb())
+              for (const cb of pathCallbacks.get(obj)[pathStr]) {
+                  cb()
+              }
           }
     ensure(pathCallbacks, obj, {[pathStr]: [callback]})
     addPropertyListener(root, property, handler)

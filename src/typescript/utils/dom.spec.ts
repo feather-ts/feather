@@ -1,29 +1,24 @@
-import {JSDOM} from 'jsdom'
 import {expect} from 'chai'
-import {start} from '../decorators/construct'
+import '../demo/custom-component'
 import {allChildNodes, allTextNodes} from './dom'
+import {getFragment} from '../decorators/template'
 
-let doc, app
-beforeEach(() => {
-    doc = new JSDOM(`<div class="application"/>`).window.document.documentElement
-    const widgets = start(doc)
-    app = widgets[0]
-})
+describe('Dom', () => {
 
-describe('Dom helpers', () => {
-
-    it('should collect child nodes', () => {
-        const root = doc.querySelector('#attribute-pass-through')
-        const items = allChildNodes(root)
-        expect(items.length).to.be.equal(3)
-        expect(items.includes(root)).to.be.true
+    it('should collect all child nodes', () => {
+        const str = `<div><span/><p/><ul><li/><li/></ul><span/></div>`
+        const frag = getFragment(str)
+        const childNodes = allChildNodes(frag)
+        expect(childNodes.length).to.be.equal(8)
+        expect(childNodes[0]).to.be.equal(frag)
     })
 
-    it('should collect text nodes', () => {
-        const root = doc.querySelector('#attribute-pass-through')
-        const items = allTextNodes(root)
-        expect(items.length).to.be.equal(1)
-        expect(items[0].textContent).to.be.equal('fa-flower')
+    it('should collect all text nodes', () => {
+        const str = `first<div>second<span>third</span><p>forth</p><span>fifth</span></div>sixth`
+        const frag = getFragment(str)
+        const childNodes = allTextNodes(frag)
+        expect(childNodes.map(x => x.textContent)).to.be.deep.equal(['first', 'second', 'third', 'forth', 'fifth', 'sixth'])
     })
 
 })
+

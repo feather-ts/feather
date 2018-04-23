@@ -5,7 +5,7 @@ import {isDef, isFunction} from '../utils/functions'
 
 export type Processor = (res: Response) => Promise<any>
 
-const fetchErrors = new WeakMap<any, TypedMap<Function>>()
+const fetchErrors = new WeakMap<any, TypedMap<string>>()
 
 const defaultProcessor: Processor = (res: Response) => res.json()
 
@@ -16,7 +16,6 @@ export interface FetchConfig extends RequestInit {
 
 const handleErrors = (response: Response) => {
     if (!response.ok) {
-        console.error(response)
         throw new ResponseError(response.statusText, response)
     }
     return response
@@ -60,11 +59,10 @@ const Xhr = (fetchMethod: string) => (conf: FetchConfig) => (proto: any, method:
                     return res
                 }) // if await should not be used
                 .catch((error: ResponseError) => {
-                    const proto = Object.getPrototypeOf(widget)
                     if (fetchErrors.has(proto)) {
-                        const errFunc = fetchErrors.get(proto)[status]
+                        const errFunc = fetchErrors.get(proto)[`${error.response.status}`]
                         if (errFunc) {
-                            errFunc.call(widget, error)
+                            widget[errFunc].call(widget, error)
                         }
                     }
                 })
@@ -77,7 +75,7 @@ export const Post = Xhr('POST')
 export const Delete = Xhr('DELETE')
 export const Put = Xhr('PUT')
 
-const FetchError = (status: number) => (proto: any, method: string) => {
-    ensure(fetchErrors, proto, {[`${status}`]: proto[method]})
+export const FetchError = (status: number) => (proto: any, method: string) => {
+    ensure(fetchErrors, proto, {[`${status}`]: method})
 }
 

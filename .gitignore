@@ -21,3 +21,4 @@ npm-debug.log.*
 /feather-docs/public
 /deploy.sh
 *.bat
+/lib

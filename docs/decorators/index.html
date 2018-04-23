@@ -184,7 +184,8 @@ a string with the markup.</p>
 
 <h3 id="array-bindings">Array bindings</h3>
 
-<p>One special case of bindings applies to array properties. This be bound in the simplest cases like this:<code>&lt;ul {{myArrayProperty}}/&gt;</code>.</p>
+<p>One special case of bindings applies to array properties. This can be bound in the simplest case
+like this:<code>&lt;ul {{myArrayProperty}}/&gt;</code>.</p>
 
 <blockquote>
 <p>Please note that the array <em>must</em> contain other widgets of the type <code>ArrayWidget</code>. ArrayWidget must also have only one root element
@@ -220,16 +221,23 @@ markUp() {
 
 <h3 id="boolean-attribute-bindings">Boolean attribute bindings</h3>
 
-<p>A special case are boolean properties bound in attributes: <code>&lt;span hidden=&quot;{{isHidden}}&quot;/&gt;</code>. If they are true the attribute is a value less property:
+<p>A special case are boolean properties bound in attributes: <code>&lt;span hidden=&quot;{{isHidden}}&quot;/&gt;</code>. If they are true the attribute is a valueless property:
 <code>&lt;span hidden/&gt;</code> and just <code>&lt;span/&gt;</code>, if false.</p>
 
 <h3 id="string-attribute-bindings">String attribute bindings</h3>
 
-<p>When strings are bound to attrbutes or inside a class attrbute, each will be removed repectively when the property evaluates to <code>undefined</code>.</p>
+<p>When strings are bound to attributes or inside a class attribute, each will be removed respectively when the property evaluates to <code>undefined</code>.</p>
 
-<h3 id="special-attrbutes">Special attrbutes</h3>
+<h3 id="special-attributes">Special attributes</h3>
 
 <p>Binding to attributes <code>checked</code> or <code>value</code> will set the bound property value via javascript and not via dom.</p>
+
+<h3 id="template-attribute">template attribute</h3>
+
+<p>As mentioned in array bindings already there is the <code>template</code> attribute to tell feather how to render elements in a list.
+To make things even more flexible you can assign a dynamic binding to the template attribute: <code>template={{view}}</code>.
+Now whenever the view property changes the array will be re-rendered. One can also add the template attribute to any
+other tag and inject other templates into the current one. Also here this can be done dynamically.</p>
 
 <h2 id="computed">Computed</h2>
 

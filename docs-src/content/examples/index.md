@@ -25,17 +25,27 @@ onPath(params) {
 ```
 
 ## Swapping components
-This can be also achieved by swapping elements in an array
+This can be achieved like in routing or by simply adding a template attribute to a tag.
+
 ```typescript
-wichComponent = 0
-components = [new Component1(), new Component2()]
+loggedIn = false
 
 @Template()
 eitherOrExample() {
-  return `<div {{components:componentToggle}}/>`
+  return `<div template={{loggedIn:toLoginView}}/>`
 }
 
-componentToggle = () => (el, idx) => idx === this.whichComponent
+@Template('LoggedIn')
+eitherOrExample() {
+  return `<div>Peter pan</div>`
+}
+
+@Template('Loggedout')
+eitherOrExample() {
+  return `<div>Login</div>`
+}
+
+toLoginView = (loggedIn: boolean) => loggedIn ? 'LoggedIn' : 'LoggedOut'
 ```
 
 ## Localization

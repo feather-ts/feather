@@ -1,73 +1,61 @@
-import {JSDOM} from 'jsdom'
+import {breakApartTextNodes, getFragment, parseTemplate, TemplateTokenInfo, TemplateTokenType} from './template'
 import {expect} from 'chai'
-import {start} from './construct'
-import * as fetchMock from 'fetch-mock'
-import '../demo/app'
-import {openTags, parseTemplate, selfClosingTags, TemplateTokenType} from './template'
+import '../demo/custom-component'
 
-let doc, app
-beforeEach(() => {
-    doc = new JSDOM(`<div class="application"/>`).window.document.documentElement
-    const widgets = start(doc)
-    app = widgets[0]
-})
+const templateSpecTemplate = `
+<div class="{{classHook}}" {{propHook.aA.bB.cB:upperCase:lowerCase}} data={{attrHook}}>
+    {{textHook}}
+    <custom-component attr1={{passOn}} jsAttr2={1+1} func={{something}}/>
+</div>
+<div class="{{classHook2}}" {{propHook2}} data={{attrHook}}>
+    {{textHook2}}
+    <custom-component attr1={{passOn}} jsAttr2={1+1} func={{something}}/>
+    <span template={{templateHook}}/>
+</div>
+`
 
 describe('Templates', () => {
 
-    it('Regexp works', () => {
-        const r = selfClosingTags,
-              o = openTags
-        expect('<span/><span/>'.replace(r, o)).to.be.equal('<span></span><span></span>')
-        expect('<bla><span/><span/></bla>'.replace(r, o)).to.be.equal('<bla><span></span><span></span></bla>')
-        expect('<span {{bla}}/><span {{bla}}/><span {{bla}}/>'.replace(r, o)).to.be.equal('<span {{bla}}></span><span {{bla}}></span><span {{bla}}></span>')
-        expect(' <ul id="filtered-list" {{filteredList:arrayFilter}} truthy="{{filteredList:countTruthy}}"/> '.replace(r, o))
-            .to.be.equal(' <ul id="filtered-list" {{filteredList:arrayFilter}} truthy="{{filteredList:countTruthy}}"></ul> ')
-        expect('<bla> <span/> <br><p/> <span/> </bla>'.replace(r, o)).to.be.equal('<bla> <span></span> <br><p></p> <span></span> </bla>')
-        expect(`<bla x="2"><span a='span>' checked b='<aa' y=1 z="2" w='</>' j="<>"/><span y=1 z="2" w="</>" j="<>"/></bla>`.replace(r, o))
-            .to.be.equal(`<bla x="2"><span a='span>' checked b='<aa' y=1 z="2" w='</>' j="<>"></span><span y=1 z="2" w="</>" j="<>"></span></bla>`)
+    it('break apart text nodes', () => {
+        const doc = getFragment('<div>{{this}} {{is}} a text {{apart}}{{test}}</div>')
+        const div = breakApartTextNodes(doc).querySelector('div')
+        expect(div.childNodes.length).to.be.equal(6)
+        expect(div.childNodes[0].textContent).to.be.equal('{{this}}')
+        expect(div.childNodes[1].textContent).to.be.equal(' ')
+        expect(div.childNodes[2].textContent).to.be.equal('{{is}}')
+        expect(div.childNodes[3].textContent).to.be.equal(' a text ')
+        expect(div.childNodes[4].textContent).to.be.equal('{{apart}}')
+        expect(div.childNodes[5].textContent).to.be.equal('{{test}}')
     })
 
-    it('Template splits text nodes correctly', () => {
-        const str = '<div>first: {{bla}} second: {{blub}}</div>',
-              parsed = parseTemplate(str)
-        const childNodes = parsed.nodes[0].firstChild.childNodes
-        expect(childNodes.length).to.be.equal(4)
-        expect(childNodes[0].textContent).to.be.equal('first: ')
-        expect(childNodes[1].textContent).to.be.equal('{{bla}}')
-        expect(childNodes[2].textContent).to.be.equal(' second: ')
-        expect(childNodes[3].textContent).to.be.equal('{{blub}}')
+    it('should assign info curly', () => {
+        const info = new TemplateTokenInfo(1, TemplateTokenType.ATTRIBUTE)
+        info.setCurly('property.a.b.c:method1:method2')
+        expect(info.path()).to.be.equal('property.a.b.c')
+        expect(info.transformers()).to.be.deep.equal(['method1', 'method2'])
     })
 
-
-    it('Template parses correctly with attributes', () => {
-        const str = `
-                    <AttributeWidget id="aw1" text="{'a'+'b'}" bool="{true}" func="{this.printStuff}" number="{3}"/>
-                    <AttributeWidget id="aw2" text={this.printStuff()} bool={false} func={this.printStuff} number={4}/>
-                `,
-            parsed = parseTemplate(str)
-        expect(parsed.nodes[0].children.length).to.be.equal(2)
-        expect(parsed.nodes[0].children[0].getAttribute('number')).to.be.equal('{3}')
-        expect(parsed.nodes[0].children[1].getAttribute('number')).to.be.equal('{4}')
+    it('should parse template correctly', () => {
+        const template = parseTemplate(templateSpecTemplate)
+        expect(template.infos.length).to.be.equal(11)
+        expect(template.infos[0].type).to.be.equal(TemplateTokenType.CLASS)
+        expect(template.infos[1].type).to.be.equal(TemplateTokenType.PROPERTY)
+        expect(template.infos[2].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
+        expect(template.infos[3].type).to.be.equal(TemplateTokenType.TEXT)
+        expect(template.infos[4].type).to.be.equal(TemplateTokenType.TAG)
+        expect(template.infos[5].type).to.be.equal(TemplateTokenType.CLASS)
+        expect(template.infos[6].type).to.be.equal(TemplateTokenType.PROPERTY)
+        expect(template.infos[7].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
+        expect(template.infos[8].type).to.be.equal(TemplateTokenType.TEXT)
+        expect(template.infos[9].type).to.be.equal(TemplateTokenType.TAG)
+        expect(template.infos[10].type).to.be.equal(TemplateTokenType.TEMPLATE)
     })
 
-    it('Template parses hooks', () => {
-        const str = '<AttributeWidget {{hook1}} bla="{{hook2}}" class="bub {{hook3}}">in {{hook4}} text</AttributeWidget>',
-            parsed = parseTemplate(str)
-        expect(parsed.infos.length).to.be.equal(4)
-        expect(parsed.infos[0].curly()).to.be.equal('hook1')
-        expect(parsed.infos[0].attribute).to.be.undefined
-        expect(parsed.infos[0].type).to.be.equal(TemplateTokenType.PROPERTY)
-
-        expect(parsed.infos[1].curly()).to.be.equal('hook2')
-        expect(parsed.infos[1].attribute).to.be.equal('bla')
-        expect(parsed.infos[1].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
-
-        expect(parsed.infos[2].curly()).to.be.equal('hook3')
-        expect(parsed.infos[2].attribute).to.be.undefined
-        expect(parsed.infos[2].type).to.be.equal(TemplateTokenType.CLASS)
-
-        expect(parsed.infos[3].curly()).to.be.equal('hook4')
-        expect(parsed.infos[3].attribute).to.be.undefined
-        expect(parsed.infos[3].type).to.be.equal(TemplateTokenType.TEXT)
+    it('should preserve case', () => {
+        const template = parseTemplate(templateSpecTemplate)
+        expect(template.infos[1].path()).to.be.equal('propHook.aA.bB.cB')
+        expect(template.infos[1].transformers()).to.be.deep.equal(['upperCase', 'lowerCase'])
     })
+
 })
+
