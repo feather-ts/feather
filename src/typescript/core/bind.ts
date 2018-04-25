@@ -242,7 +242,7 @@ export const connectTemplate = (widget: AnyWidget, el: Element, template: Parsed
     let res = updateDom(widget, template, transformMap, [])
     const updateTemplate = (array = true) => {
         res = updateDom(widget, template, transformMap, res.valueMap)
-        if (res.change) {
+        if (res.change && parentNode) {
             parentNode.dispatchEvent(Update()) // let's inform parent widgets
         }
         if (array) {
