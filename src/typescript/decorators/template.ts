@@ -142,7 +142,6 @@ export const parseHooks = (nodes: Element[], hookMap = {}): TemplateTokenInfo[] 
                     token.selector = selector
                     hooks.push(token)
                 }
-                continue
             }
             for (const attribute of Array.from(node.attributes)) {
                 const attributeName = attribute.nodeName
@@ -158,32 +157,34 @@ export const parseHooks = (nodes: Element[], hookMap = {}): TemplateTokenInfo[] 
                         }
                     }
                 }
-                else if (attributeName === 'template') {
-                    const token = new TemplateTokenInfo(pos, TemplateTokenType.TEMPLATE)
-                    token.attribute = attributeName
-                    if (match = attribute.value.match(CURLIES)) {
-                        token.setCurly(match[1])
-                    } else {
-                        token.setCurly(attribute.value)
-                    }
-                    hooks.push(token)
-                }
-                else if (match = attributeName.match(CURLIES)) {
-                    // <div id="2" {{myProperty}}>
-                    (node as HTMLElement).removeAttribute(match[0])
-                    const token = new TemplateTokenInfo(pos, TemplateTokenType.PROPERTY)
-                    token.setCurly(hookMap[match[1]])
-                    hooks.push(token)
-                }
-                else {
-                    // <div id="2" myProperty="{{myProperty}}">
-                    const value = attribute.value
-                    if (match = value.match(CURLIES)) {
-                        (node as HTMLElement).removeAttribute(attributeName)
-                        const token = new TemplateTokenInfo(pos, TemplateTokenType.ATTRIBUTE)
-                        token.setCurly(match[1])
+                else if (!inSubWidget) {
+                    if (attributeName === 'template') {
+                        const token = new TemplateTokenInfo(pos, TemplateTokenType.TEMPLATE)
                         token.attribute = attributeName
+                        if (match = attribute.value.match(CURLIES)) {
+                            token.setCurly(match[1])
+                        } else {
+                            token.setCurly(attribute.value)
+                        }
                         hooks.push(token)
+                    }
+                    else if (match = attributeName.match(CURLIES)) {
+                        // <div id="2" {{myProperty}}>
+                        (node as HTMLElement).removeAttribute(match[0])
+                        const token = new TemplateTokenInfo(pos, TemplateTokenType.PROPERTY)
+                        token.setCurly(hookMap[match[1]])
+                        hooks.push(token)
+                    }
+                    else {
+                        // <div id="2" myProperty="{{myProperty}}">
+                        const value = attribute.value
+                        if (match = value.match(CURLIES)) {
+                            (node as HTMLElement).removeAttribute(attributeName)
+                            const token = new TemplateTokenInfo(pos, TemplateTokenType.ATTRIBUTE)
+                            token.setCurly(match[1])
+                            token.attribute = attributeName
+                            hooks.push(token)
+                        }
                     }
                 }
             }

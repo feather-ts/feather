@@ -42,7 +42,7 @@ class BindTestWidget implements Widget {
         </div>
         <div class="{{classHook2}}" {{propHook2}} data={{attrHook2}}>
             {{textHook2}}
-            <custom-component from-parent={{passOn}} raw-java-script={1+1} func={{passOnFunc}}/>
+            <custom-component class="{{classHook2:plusA}}" from-parent={{passOn}} raw-java-script={1+1} func={{passOnFunc}}/>
             <span data-computed={{computed}} class="template-hook" template={{templateHook}}/>
             <ul {{arrHook}}/>
             <span class="size">{{arrHook:size}}</span>
@@ -86,6 +86,7 @@ describe('Bind', () => {
         expect(div.querySelectorAll('custom-component')[0].textContent).to.have.string('Passed on: pass-on-a and raw javascript: 2')
         expect(div.querySelectorAll('custom-component')[1].childElementCount).to.be.equal(2)
         expect(div.querySelectorAll('custom-component')[1].textContent).to.have.string('Passed on: pass-on-a and raw javascript: 2')
+        expect(div.querySelectorAll('custom-component')[1].classList.contains('cls-bA')).to.be.true
 
         expect(div.querySelector('span.template-hook').textContent).to.have.string('Injected')
         expect(div.querySelector('span.template-hook').getAttribute('data-computed')).to.be.equal('prop-hook-a attr-a')
