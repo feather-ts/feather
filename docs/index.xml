@@ -40,8 +40,7 @@ Components Feather provides two interfaces to turn any class into a component: W
       <guid>/decorators/</guid>
       <description>Construct @Construct({selector: string, singleton: boolean})
 The only class decorator in feather that indicates where in the DOM this component should be mounted to. You can mount components to arbitrary css selectors, which allows to create mixins of components. The singleton flag is used in combination with the @Inject decorator. Each widget should implement the interface Widget or ArrayWidget respectively.
-Inject @Inject()
-If you have a component flagged as a singleton in @Construct() you can inject it into any other component via @Inject.</description>
+ Make sure the classes are imported in the correct order.</description>
     </item>
     
     <item>

@@ -165,6 +165,12 @@ components to arbitrary css selectors, which allows to create mixins of componen
 combination with the <code>@Inject</code> decorator.
 Each widget should implement the interface <code>Widget</code> or <code>ArrayWidget</code> respectively.</p>
 
+<blockquote>
+<p>Make sure the classes are imported in the correct order. If a widget references another
+widget in its template, the referenced one must be imported first. Without an import the
+@Construct() decorator is never executed!</p>
+</blockquote>
+
 <h2 id="inject">Inject</h2>
 
 <p><code>@Inject()</code></p>
