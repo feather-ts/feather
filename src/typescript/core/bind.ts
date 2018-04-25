@@ -22,7 +22,7 @@ const subWidgets = new WeakMap<AnyWidget, any[]>()
  */
 const UPDATE_KEY = '__update__'
 
-const Update = () => new CustomEvent(UPDATE_KEY, {bubbles: true, cancelable:false})
+const Update = () => new CustomEvent(UPDATE_KEY, {bubbles: true, cancelable:false, scoped: false})
 
 interface UpdateInfo {
     valueMap: any[]
@@ -134,20 +134,20 @@ const getCurrentValueMap = (widget: AnyWidget, template: ParsedTemplate, transfo
     return map
 }
 
-const bindArray = (array: ArrayWidget[], node: Element, widget: AnyWidget, info: TemplateTokenInfo,
+const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget, info: TemplateTokenInfo,
                    templateName: Function, changeHappened: () => void) => {
     const method = info.arrayTransformer(),
           transformer = (widget[method] || TransformerRegistry[method]).bind(widget)
     const listener = domArrayListener(
         array,
-        node,
+        parentNode,
         transformer(),
         changeHappened,
         (item) => {
             const template = getTemplate(item, templateName()),
                   node     = template.nodes[1]
             runConstructorQueue(item, node)
-            connectTemplate(item, node, template, node)
+            connectTemplate(item, node, template, parentNode)
             return node
         }
     )
@@ -275,7 +275,7 @@ export const render = (widget: any, el: Element, name?: string) => {
     }
     el.innerHTML = ''
     const template = getTemplate(widget, name)
-    connectTemplate(widget, el, template, el.parentNode as any)
+    connectTemplate(widget, el, template, el.parentElement)
     el.appendChild(template.doc)
 }
 
