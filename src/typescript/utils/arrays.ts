@@ -115,13 +115,12 @@ export const observeArray = <T>(arr: T[], listener: ArrayListener<T>) => {
 
 export function domArrayListener(arr: ArrayWidget[],
                                  el: Element,
-                                 filter: Function,
-                                 changeHappened: Function,
-                                 onItemAdded: Function): ArrayListener<ArrayWidget> {
+                                 filter: (item: ArrayWidget, index: number) => boolean,
+                                 changeHappened: () => void,
+                                 onItemAdded: (item: ArrayWidget) => Element): ArrayListener<ArrayWidget> {
     const firstChild = el.firstElementChild // usually null, lists that share a parent with other nodes are prepended.
     let nodeVisible: boolean[] = []
     const elementMap = new WeakMap<ArrayWidget, Element>()
-    const templateName = el.getAttribute('template') || undefined // getAttribute returns null
     const listener: ArrayListener<ArrayWidget> = {
         sort(indices: any[]) {
             const copy: boolean[] = []
@@ -140,19 +139,19 @@ export function domArrayListener(arr: ArrayWidget[],
             nodeVisible.splice(index, deleteCount, ...added.map(() => false))
 
             if (deleteCount) {
-                deleted.forEach(del => {
+                for (const del of deleted) {
                     const node = elementMap.get(del)
                     if (node.parentElement === el) {
                         el.removeChild(node)
                     }
                     elementMap.delete(del)
                     cleanUp(node)
-                })
+                }
             }
             if (added.length) {
                 for (const item of added) {
                     if (!elementMap.has(item)) {
-                        elementMap.set(item, onItemAdded(item, templateName))
+                        elementMap.set(item, onItemAdded(item))
                     }
                 }
             }

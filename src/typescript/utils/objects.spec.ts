@@ -1,4 +1,3 @@
-import {JSDOM} from 'jsdom'
 import {expect} from 'chai'
 import {deepValue, getSubset, isObject, merge} from './objects'
 

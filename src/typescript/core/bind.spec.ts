@@ -1,76 +1,153 @@
-import {JSDOM} from 'jsdom'
 import {expect} from 'chai'
-import {start} from '../decorators/construct'
-import '../demo/app'
+import '../demo/custom-component'
+import {findWidget, render} from './bind'
+import {ArrayWidget, Construct, start, Widget} from '../decorators/construct'
+import {getFragment, Template} from '../decorators/template'
+import {Computed} from '../decorators/computed'
+import {CustomComponent} from '../demo/custom-component'
+import Sinon = require('sinon')
 
-let doc, app
-beforeEach(() => {
-    doc = new JSDOM(`<div class="application"/>`).window.document.documentElement
-    const widgets = start(doc)
-    app = widgets[0]
+class BindItem implements ArrayWidget {
+    @Template()
+    as() {
+        return `* `
+    }
+}
+
+@Construct({selector: 'div.bind'})
+class BindTestWidget implements Widget {
+
+    arrHook: BindItem[] = [new BindItem(), new BindItem()]
+    classHook = 'cls-a'
+    classHook2 = 'cls-b'
+    propHook = 'prop-hook-a'
+    propHook2 = 'prop-hook-b'
+    attrHook = 'attr-a'
+    attrHook2 = 'attr-b'
+    textHook = 'text-a'
+    textHook2 = 'text-b'
+    passOn = 'pass-on-a'
+    templateHook = 'injected'
+    passOnFunc = () => this.textHook
+
+    init = (el) => render(this, el)
+
+    @Template()
+    markup() {
+        return `
+        <div class="{{classHook}}" {{propHook:upperCaseBind:plusA}} data={{attrHook}}>
+            {{textHook}}
+            <custom-component from-parent={{passOn}} raw-java-script={1+1} func={{passOnFunc}}/>
+            <ul {{arrHook}}/>
+        </div>
+        <div class="{{classHook2}}" {{propHook2}} data={{attrHook2}}>
+            {{textHook2}}
+            <custom-component from-parent={{passOn}} raw-java-script={1+1} func={{passOnFunc}}/>
+            <span data-computed={{computed}} class="template-hook" template={{templateHook}}/>
+            <ul {{arrHook}}/>
+            <span class="size">{{arrHook:size}}</span>
+        </div>
+        `
+    }
+
+    @Template('injected')
+    injectedTemplate() {
+        return 'Injected'
+    }
+
+    @Template('injected2')
+    injectedTemplate2() {
+        return 'Injected*'
+    }
+
+    @Computed('propHook', 'attrHook')
+    computed() {
+        return this.propHook + ' ' + this.attrHook
+    }
+
+    upperCaseBind = (str) => str.toUpperCase()
+    plusA = (str) => str + 'A'
+    size = (arr: any[]) => arr.length
+}
+
+describe('Bind', () => {
+
+    it('should render complex template', () => {
+        const doc = getFragment('<div class="bind"/>')
+        start(doc as any)
+        const div = doc.firstElementChild
+        expect(div.firstElementChild.matches('.cls-a[prophook="PROP-HOOK-AA"][data="attr-a"]')).to.be.true
+        expect(div.firstElementChild.textContent).to.have.string('text-a')
+
+        expect(div.lastElementChild.matches('.cls-b[prophook2="prop-hook-b"][data="attr-b"]')).to.be.true
+        expect(div.lastElementChild.textContent).to.have.string('text-b')
+
+        expect(div.querySelectorAll('custom-component')[0].childElementCount).to.be.equal(2)
+        expect(div.querySelectorAll('custom-component')[0].textContent).to.have.string('Passed on: pass-on-a and raw javascript: 2')
+        expect(div.querySelectorAll('custom-component')[1].childElementCount).to.be.equal(2)
+        expect(div.querySelectorAll('custom-component')[1].textContent).to.have.string('Passed on: pass-on-a and raw javascript: 2')
+
+        expect(div.querySelector('span.template-hook').textContent).to.have.string('Injected')
+        expect(div.querySelector('span.template-hook').getAttribute('data-computed')).to.be.equal('prop-hook-a attr-a')
+
+        expect(div.querySelectorAll('ul')[0].textContent).to.be.have.string('* * ')
+        expect(div.querySelectorAll('ul')[1].textContent).to.be.have.string('* * ')
+
+        expect(div.querySelector('span.size').textContent).to.have.string('2')
+    })
+
+    it('should change complex template', () => {
+        const doc = getFragment('<div class="bind"/>')
+        const [testWidget] = start(doc as any) as BindTestWidget[]
+        const div = doc.firstElementChild
+
+        testWidget.arrHook.push(new BindItem(), new BindItem())
+        testWidget.classHook = 'cls-a-star'
+        testWidget.classHook2 = 'cls-b-star'
+        testWidget.propHook = 'prop-hook-a*'
+        testWidget.propHook2 = 'prop-hook-b*'
+        testWidget.attrHook = 'attr-a*'
+        testWidget.attrHook2 = 'attr-b*'
+        testWidget.textHook = 'text-a*'
+        testWidget.textHook2 = 'text-b*'
+        testWidget.passOn = 'pass-on-a*'
+        testWidget.templateHook = 'injected2'
+
+        expect(div.firstElementChild.matches('.cls-a-star[prophook="PROP-HOOK-A*A"][data="attr-a*"]')).to.be.true
+        expect(div.firstElementChild.textContent).to.have.string('text-a*')
+
+        expect(div.lastElementChild.matches('.cls-b-star[prophook2="prop-hook-b*"][data="attr-b*"]')).to.be.true
+        expect(div.lastElementChild.textContent).to.have.string('text-b*')
+
+        expect(div.querySelectorAll('custom-component')[0].childElementCount).to.be.equal(2)
+        expect(div.querySelectorAll('custom-component')[0].textContent).to.have.string('Passed on: pass-on-a* and raw javascript: 2')
+        expect(div.querySelectorAll('custom-component')[1].childElementCount).to.be.equal(2)
+        expect(div.querySelectorAll('custom-component')[1].textContent).to.have.string('Passed on: pass-on-a* and raw javascript: 2')
+
+        expect(div.querySelector('span.template-hook').textContent).to.have.string('Injected*')
+        expect(div.querySelector('span.template-hook').getAttribute('data-computed')).to.be.equal('prop-hook-a* attr-a*')
+
+        expect(div.querySelectorAll('ul')[0].textContent).to.be.have.string('* * * * ')
+        expect(div.querySelectorAll('ul')[1].textContent).to.be.have.string('* * * * ')
+
+        expect(div.querySelector('span.size').textContent).to.have.string('4')
+    })
+
+    it('should have findable sub-widget', () => {
+        const doc = getFragment('<div class="bind"/>')
+        const [testWidget] = start(doc as any) as BindTestWidget[]
+        const cc = findWidget(testWidget, CustomComponent)
+        expect(cc).to.not.be.undefined
+    })
+
+    it('should have pass through function scope', () => {
+        const doc = getFragment('<div class="bind"/>')
+        const [testWidget] = start(doc as any) as BindTestWidget[]
+        const cc = findWidget(testWidget, CustomComponent)
+        const spy = Sinon.spy(cc, 'func')
+        const res = cc.func()
+        expect(spy.calledOnce).to.be.true
+        expect(res).to.be.equal('text-a')
+    })
 })
 
-describe('Basic bindings', () => {
-    it('should render template content', () => {
-        const app = doc.querySelector('.application')
-        expect(app.children.length > 1).to.be.true
-    })
-
-    it('should render simple strings', () => {
-        const str = doc.querySelector('#simple-string')
-        expect(str.textContent).to.be.equal('Rose')
-        app.flower.name = 'Tulip'
-        expect(str.textContent).to.be.equal('Tulip')
-    })
-
-    it('should transform simple strings', () => {
-        const transformed = doc.querySelector('#string-transformed')
-        expect(transformed.textContent).to.be.equal('HALLO')
-        app.name = 'hello'
-        expect(transformed.textContent).to.be.equal('HELLO')
-    })
-
-    it('should bind classes', () => {
-        const transformed = doc.querySelector('#string-transformed')
-        expect(transformed.classList.contains('Rose')).to.be.true
-        app.flower.name = undefined
-        expect(transformed.classList.contains('Rose')).to.be.false
-        app.flower.name = 'Tulip'
-        expect(transformed.classList.contains('Tulip')).to.be.true
-    })
-
-    it('should bind boolean attribute', () => {
-        const toggler = doc.querySelector('#string-transformed')
-        expect(toggler.getAttribute('data-toggler')).to.not.be.null
-        app.flower.toggle = false
-        expect(toggler.getAttribute('data-toggler')).to.be.null
-    })
-
-    it('should pass through attributes to sub-widgets', () => {
-        const passThrough = doc.querySelector('#attribute-pass-through')
-        expect(passThrough.children.length).to.be.equal(1)
-        const icon = passThrough.firstElementChild
-        expect(icon.classList.contains('fa-flower')).to.be.true
-        expect(icon.textContent).to.be.equal('fa-flower')
-        app.flower.icon = 'fa-plant'
-        expect(icon.classList.contains('fa-plant')).to.be.true
-        expect(icon.textContent).to.be.equal('fa-plant')
-    })
-
-    it('should render computed', () => {
-        const comp = doc.querySelector('#computed-value')
-        expect(comp.textContent).to.be.equal('peter pan')
-        app.flower.owner.firstname = 'Captain'
-        expect(comp.textContent).to.be.equal('captain pan')
-        app.flower.owner.lastname = 'Hook'
-        expect(comp.textContent).to.be.equal('captain hook')
-    })
-
-    it('should set class on child component', () => {
-        const comp = doc.querySelector('responsive')
-        expect(comp.classList.contains('fa-flower')).to.be.true
-        app.flower.icon = 'tulip'
-        expect(comp.classList.contains('fa-flower')).to.be.false
-        expect(comp.classList.contains('tulip')).to.be.true
-    })
-})

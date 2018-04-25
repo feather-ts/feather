@@ -9,10 +9,10 @@ with IE11, if polyfills are provided. You will need es6 shims,
 Promise, Fetch and CustomEvent polyfills.
 
 ## Bindings and DOM writes
-Feather has no virtual dom, but since the templates are logic less
+Feather has no virtual dom, but since the templates are logicless
 the dom writes are optimized in place. You get maximum performance
-without the overhead of diffing a parts of the DOM tree. 
-Because of that feather plays nicely with others and doesn't care if 
+without the overhead of diffing parts of the DOM tree. 
+Because of that feather also plays nicely with others and doesn't care if 
 the DOM is modified by external scripts.
 
 ## Scaffolding

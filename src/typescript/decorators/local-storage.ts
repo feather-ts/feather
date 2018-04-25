@@ -1,6 +1,6 @@
 import {isDef, isFunction, isUndef} from '../utils/functions'
-import {addToConstructorQueue, AnyWidget, ArrayWidget, EnhancedConstructor, Widget} from './construct'
-import {addPropertyListener, Callback, ensure, getSubset, TypedMap} from '../utils/objects'
+import {addToConstructorQueue, AnyWidget, ArrayWidget, EnhancedConstructor} from './construct'
+import {addPropertyListener, Callback, ensure, getSubset} from '../utils/objects'
 import {observeArray} from '../utils/arrays'
 
 const localStorageProperties = new WeakMap<any, string[]>()
@@ -114,3 +114,5 @@ export const LocalStorage = (arrayType?: () => ArrayWidget) => (proto: AnyWidget
 export const Storable = () => (proto: ArrayWidget, property: string) => {
     ensure(storableProperties, proto.constructor, [property])
 }
+
+// todo: write test somehow

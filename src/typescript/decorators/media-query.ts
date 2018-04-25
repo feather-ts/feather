@@ -15,3 +15,4 @@ export const MediaQuery = (query: string) => (proto: AnyWidget, method: string) 
     })
 }
 
+// todo: write test somehow

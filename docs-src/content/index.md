@@ -37,10 +37,5 @@ any dogmatic constructs you would need to follow.
 
 ## Intellij IDEA
 
-Feather comes with an own [IDE plugin](http://dist.feather-ts.com/feather.jar) to help you with syntax 
+Feather comes with an own [IDE plugin](https://plugins.jetbrains.com/plugin/9992-feather-ts-code-support) to help you with syntax 
 highlighting and mistyped references. Grab it from the link or the official plugin repository.
-  
-## Examples  
-    
-* <div>You can check out the todomvc demo from [here](http://todo.feather-ts.com).</div>
-  

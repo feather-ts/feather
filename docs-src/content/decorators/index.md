@@ -12,6 +12,10 @@ components to arbitrary css selectors, which allows to create mixins of componen
 combination with the `@Inject` decorator.
 Each widget should implement the interface `Widget` or `ArrayWidget` respectively.
 
+> Make sure the classes are imported in the correct order. If a widget references another 
+widget in its template, the referenced one must be imported first. Without an import the
+@Construct() decorator is never executed!                
+
 ## Inject
 
 `@Inject()`
@@ -31,7 +35,8 @@ a string with the markup.
 
 ### Array bindings
 
-One special case of bindings applies to array properties. This be bound in the simplest cases like this:`<ul {{myArrayProperty}}/>`.
+One special case of bindings applies to array properties. This can be bound in the simplest case 
+like this:`<ul {{myArrayProperty}}/>`.
 
 > Please note that the array *must* contain other widgets of the type `ArrayWidget`. ArrayWidget must also have only one root element
 in their @Template decorated method.
@@ -66,14 +71,20 @@ markUp() {
 This will render the same array twice, once with only even elements and via template A and once the full array where each child is rendered with template B.
 
 ### Boolean attribute bindings
-A special case are boolean properties bound in attributes: `<span hidden="{{isHidden}}"/>`. If they are true the attribute is a value less property: 
+A special case are boolean properties bound in attributes: `<span hidden="{{isHidden}}"/>`. If they are true the attribute is a valueless property: 
 `<span hidden/>` and just `<span/>`, if false. 
 
 ### String attribute bindings
-When strings are bound to attrbutes or inside a class attrbute, each will be removed repectively when the property evaluates to `undefined`.
+When strings are bound to attributes or inside a class attribute, each will be removed respectively when the property evaluates to `undefined`.
 
-### Special attrbutes
+### Special attributes
 Binding to attributes `checked` or `value` will set the bound property value via javascript and not via dom.
+
+### template attribute
+As mentioned in array bindings already there is the `template` attribute to tell feather how to render elements in a list. 
+To make things even more flexible you can assign a dynamic binding to the template attribute: `template={{view}}`. 
+Now whenever the view property changes the array will be re-rendered. One can also add the template attribute to any
+other tag and inject other templates into the current one. Also here this can be done dynamically.
 
 ## Computed
 

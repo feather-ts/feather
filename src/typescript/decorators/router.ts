@@ -1,5 +1,5 @@
 import {TypedMap} from '../utils/objects'
-import {addToConstructorQueue, EnhancedConstructor, Widget} from './construct'
+import {addToConstructorQueue, AnyWidget, EnhancedConstructor, Widget} from './construct'
 import {namedRegexMatch} from '../utils/strings'
 import {registerCleanUp} from '../core/cleanup'
 
@@ -74,7 +74,7 @@ export const runRoutes = () => {
     window.addEventListener(historyAPI ? 'popstate' : 'hashchange', () => notifyListeners(getCurrentRoute()), false)
 }
 
-export const Route = (route: string) => (proto: Widget, method: string) => {
+export const Route = (route: string) => (proto: AnyWidget, method: string) => {
     addToConstructorQueue(proto.constructor as EnhancedConstructor, (widget: Widget, node: Node) => {
         if (!routeListeners[route]) {
             routeListeners[route] = []

@@ -1,6 +1,7 @@
 import {createObjectPropertyListener, ensure, TypedMap} from '../utils/objects'
+import {AnyWidget} from './construct'
 
-const computedProps = new WeakMap<any, TypedMap<string[]>>()
+const computedProps = new WeakMap<AnyWidget, TypedMap<string[]>>()
 
 export const createComputedListener = (widget, info, updateDom: Function) => {
     const proto = Object.getPrototypeOf(widget)
@@ -12,6 +13,6 @@ export const createComputedListener = (widget, info, updateDom: Function) => {
     )
 }
 
-export const Computed = (...paths: string[]) => (proto: any, method: string) => {
+export const Computed = (...paths: string[]) => (proto: AnyWidget, method: string) => {
     ensure(computedProps, proto, {[method]: paths})
 }

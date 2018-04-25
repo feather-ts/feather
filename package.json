@@ -1,6 +1,6 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.38",
+    "version": "2.0.48",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
@@ -14,6 +14,7 @@
         "@types/fetch-mock": "6.0.1",
         "@types/mocha": "5.0.0",
         "@types/sinon": "4.3.1",
+        "bulma": "0.7.1",
         "chai": "4.1.2",
         "fetch-mock": "6.3.0",
         "isomorphic-fetch": "2.2.1",
@@ -43,9 +44,10 @@
     },
     "scripts": {
         "watch": "parcel src/html/index.html -p 9080",
-        "clean": "rimraf dist",
+        "clean": "rimraf dist lib",
         "npm:version": "npm --no-git-tag-version version patch",
         "feather:compile": "tsc -d",
+        "feather:watch": "tsc -d -w",
         "docs": "(cd docs-src) && (hugo -d ../docs)",
         "bundle": "rollup -c",
         "prepare": "npm-run-all clean npm:version feather:compile",

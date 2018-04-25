@@ -1,55 +1,59 @@
 import {ArrayWidget} from '../decorators/construct'
-import {MyApp} from './app'
-import {Inject} from '../decorators/inject'
-import {SubListItem} from './sub-list-item'
-import {On} from '../decorators/event'
 import {Template} from '../decorators/template'
-import './sub-list-item'
-import './icon'
+import {SubItem} from './sub-item'
+import {range} from '../utils/arrays'
+import './sub-item'
+import {On} from '../decorators/event'
+
+const rnd = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min
 
 export class ListItem implements ArrayWidget {
 
-    @Inject() myApp: MyApp
-
     text: string
-    icon: string
+    subItems: SubItem[] = range(1, rnd(1, 5)).map(i => new SubItem(i))
 
-    toggle: true
-    subs = []
-
-    constructor(text: string, icon: string) {
+    constructor(text: string) {
         this.text = text
-        this.icon = icon
     }
 
-    @On({event: 'click', selector: 'button'})
-    delegatedClick(ev: MouseEvent) {
-        this.subs.push(
-            new SubListItem('Apricot', 'Orange'),
-            new SubListItem('Pear', 'Green')
-        )
-    }
-
-    @On({event: 'click', selector: 'input'})
-    clickCheckbox(ev) {
-        this.toggle = ev.target.checked
+    @On({})
+    click() {
+        this.text = this.text.replace(/\)\s./, ') M')
     }
 
     @Template()
     markup() {
         return `
         <li>
-            <span class="{{icon}}">
-                {{text}}<Icon icon={{icon}}/>
-            </span>
-            <input type="checkbox" checked="{{toggle}}"/>
-            <ul {{subs:startsWithA}}/>
-            <button>{{subs:size}}</button>
+            <div>{{text}}</div>
         </li>`
     }
 
-    @Template('alternative')
+    @Template('uppercase')
     markup2() {
-        return `<li>{{text}}</li>`
+        return `
+        <li>
+            <div>{{text:globalUpperCase}}</div>
+        </li>`
     }
+
+
+    @Template('subitems')
+    markup3() {
+        return `
+        <li>
+            <div>{{text}}</div>
+            <div class="sub-items {{subItems:size}}" {{subItems}}/>
+        </li>`
+    }
+
+    @Template('lowercase')
+    markup4() {
+        return `
+        <li>
+            <div>{{text:lowercase}}</div>
+        </li>`
+    }
+
+    lowercase = (str: string) => str.toLowerCase()
 }

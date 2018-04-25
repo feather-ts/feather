@@ -40,8 +40,7 @@ Components Feather provides two interfaces to turn any class into a component: W
       <guid>/decorators/</guid>
       <description>Construct @Construct({selector: string, singleton: boolean})
 The only class decorator in feather that indicates where in the DOM this component should be mounted to. You can mount components to arbitrary css selectors, which allows to create mixins of components. The singleton flag is used in combination with the @Inject decorator. Each widget should implement the interface Widget or ArrayWidget respectively.
-Inject @Inject()
-If you have a component flagged as a singleton in @Construct() you can inject it into any other component via @Inject.</description>
+ Make sure the classes are imported in the correct order.</description>
     </item>
     
     <item>
@@ -51,7 +50,7 @@ If you have a component flagged as a singleton in @Construct() you can inject it
       
       <guid>/examples/</guid>
       <description>Routing Routing is simply done by having one page container component with a bunch of @Route() decorated methods and one single-item array binding for the pages to show. Now from within the routing methods replace the array item with a new page.
-myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splice(0, 1, new LoginPage()) } @Route(&#39;/project/:id&#39;) onPath(params) { const project = await this.fetchProject(params.id) this.myPage.splice(0, 1, new ProjectPage(project)) }  Swapping components This can be also achieved by swapping elements in an array</description>
+myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splice(0, 1, new LoginPage()) } @Route(&#39;/project/:id&#39;) onPath(params) { const project = await this.fetchProject(params.id) this.myPage.splice(0, 1, new ProjectPage(project)) }  Swapping components This can be achieved like in routing or by simply adding a template attribute to a tag.</description>
     </item>
     
     <item>
@@ -60,7 +59,10 @@ myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splic
       <pubDate>Sat, 02 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/packaging/</guid>
-      <description>Packaging You can use browserify, parcel-bundler or any other existing technology to pack and bundle feather applications.</description>
+      <description>Packaging You can use browserify, parcel-bundler or any other existing technology to pack and bundle feather applications.
+Imports Right you can use all feather-ts parts by importing the files directly from NPM:
+import {Construct} from &#39;@feather-ts/feather-ts/dist/decorators/construct&#39;
+There will be a commonjs and es6 bundles distribution available too, but we recommend to include only the bits and pieces required for your own app, instead of the full bundled package.</description>
     </item>
     
     <item>
@@ -70,7 +72,7 @@ myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splic
       
       <guid>/help/</guid>
       <description>IE11 support Feather-ts comes without old browser support. However it does work with IE11, if polyfills are provided. You will need es6 shims, Promise, Fetch and CustomEvent polyfills.
-Bindings and DOM writes Feather has no virtual dom, but since the templates are logic less the dom writes are optimized in place. You get maximum performance without the overhead of diffing a parts of the DOM tree. Because of that feather plays nicely with others and doesn&amp;rsquo;t care if the DOM is modified by external scripts.</description>
+Bindings and DOM writes Feather has no virtual dom, but since the templates are logicless the dom writes are optimized in place. You get maximum performance without the overhead of diffing parts of the DOM tree. Because of that feather also plays nicely with others and doesn&amp;rsquo;t care if the DOM is modified by external scripts.</description>
     </item>
     
   </channel>

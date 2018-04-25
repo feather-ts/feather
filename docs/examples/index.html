@@ -178,17 +178,26 @@ onPath(params) {
 
 <h2 id="swapping-components">Swapping components</h2>
 
-<p>This can be also achieved by swapping elements in an array</p>
+<p>This can be achieved like in routing or by simply adding a template attribute to a tag.</p>
 
-<pre><code class="language-typescript">wichComponent = 0
-components = [new Component1(), new Component2()]
+<pre><code class="language-typescript">loggedIn = false
 
 @Template()
 eitherOrExample() {
-  return `&lt;div {{components:componentToggle}}/&gt;`
+  return `&lt;div template={{loggedIn:toLoginView}}/&gt;`
 }
 
-componentToggle = () =&gt; (el, idx) =&gt; idx === this.whichComponent
+@Template('LoggedIn')
+eitherOrExample() {
+  return `&lt;div&gt;Peter pan&lt;/div&gt;`
+}
+
+@Template('Loggedout')
+eitherOrExample() {
+  return `&lt;div&gt;Login&lt;/div&gt;`
+}
+
+toLoginView = (loggedIn: boolean) =&gt; loggedIn ? 'LoggedIn' : 'LoggedOut'
 </code></pre>
 
 <h2 id="localization">Localization</h2>
