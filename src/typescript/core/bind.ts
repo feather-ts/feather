@@ -242,7 +242,7 @@ export const connectTemplate = (widget: AnyWidget, el: Element, template: Parsed
     let res = updateDom(widget, template, transformMap, [])
     const updateTemplate = (array = true) => {
         res = updateDom(widget, template, transformMap, res.valueMap)
-        if (res.change && parentNode) {
+        if (res.change) {
             parentNode.dispatchEvent(Update()) // let's inform parent widgets
         }
         if (array) {
@@ -275,7 +275,7 @@ export const render = (widget: any, el: Element, name?: string) => {
     }
     el.innerHTML = ''
     const template = getTemplate(widget, name)
-    connectTemplate(widget, el, template, el.parentElement)
+    connectTemplate(widget, el, template, el.parentNode as any)
     el.appendChild(template.doc)
 }
 
