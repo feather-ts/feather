@@ -13,7 +13,7 @@ before(() => {
 })
 
 
-@Construct({selector: 'div.event'})
+@Construct({selector: 'div.fetch'})
 class FetchWidget implements Widget {
 
     init = (el) => 0
