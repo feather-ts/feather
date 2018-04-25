@@ -3,9 +3,11 @@ const Storage = require('node-storage-shim')
 require('isomorphic-fetch')
 const {JSDOM} = jsdom
 
-let window = new JSDOM('<!doctype html><html><body></body></html>').window
+let window = new JSDOM('<!doctype html><html><body></body></html>', {url: "https://example.org/"}).window
 global.window = window
 global.document = window.document
+global.location = window.document.location
+global.history = window.history
 global.document.createRange = () => ({
   createContextualFragment: str => JSDOM.fragment(str)
 })
