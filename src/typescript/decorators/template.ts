@@ -157,6 +157,13 @@ export const parseHooks = (nodes: Element[], hookMap = {}): TemplateTokenInfo[] 
                         }
                     }
                 }
+                else if (match = attributeName.match(CURLIES)) {
+                    // <div id="2" {{myProperty}}>
+                    (node as HTMLElement).removeAttribute(match[0])
+                    const token = new TemplateTokenInfo(pos, TemplateTokenType.PROPERTY)
+                    token.setCurly(hookMap[match[1]])
+                    hooks.push(token)
+                }
                 else if (!inSubWidget) {
                     if (attributeName === 'template') {
                         const token = new TemplateTokenInfo(pos, TemplateTokenType.TEMPLATE)
@@ -166,13 +173,6 @@ export const parseHooks = (nodes: Element[], hookMap = {}): TemplateTokenInfo[] 
                         } else {
                             token.setCurly(attribute.value)
                         }
-                        hooks.push(token)
-                    }
-                    else if (match = attributeName.match(CURLIES)) {
-                        // <div id="2" {{myProperty}}>
-                        (node as HTMLElement).removeAttribute(match[0])
-                        const token = new TemplateTokenInfo(pos, TemplateTokenType.PROPERTY)
-                        token.setCurly(hookMap[match[1]])
                         hooks.push(token)
                     }
                     else {
