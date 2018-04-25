@@ -4,7 +4,7 @@ import {render} from '../core/bind'
 import {On} from '../decorators/event'
 
 @Construct({selector: 'custom-component'})
-export class ComponentComponent implements Widget {
+export class CustomComponent implements Widget {
 
     fromParent: string
     rawJavaScript: number

@@ -4,7 +4,8 @@ import {findWidget, render} from './bind'
 import {ArrayWidget, Construct, start, Widget} from '../decorators/construct'
 import {getFragment, Template} from '../decorators/template'
 import {Computed} from '../decorators/computed'
-import {ComponentComponent} from '../demo/custom-component'
+import {CustomComponent} from '../demo/custom-component'
+import Sinon = require('sinon')
 
 class BindItem implements ArrayWidget {
     @Template()
@@ -135,8 +136,18 @@ describe('Bind', () => {
     it('should have findable sub-widget', () => {
         const doc = getFragment('<div class="bind"/>')
         const [testWidget] = start(doc as any) as BindTestWidget[]
-        const cc = findWidget(testWidget, ComponentComponent)
+        const cc = findWidget(testWidget, CustomComponent)
         expect(cc).to.not.be.undefined
+    })
+
+    it('should have pass through function scope', () => {
+        const doc = getFragment('<div class="bind"/>')
+        const [testWidget] = start(doc as any) as BindTestWidget[]
+        const cc = findWidget(testWidget, CustomComponent)
+        const spy = Sinon.spy(cc, 'func')
+        const res = cc.func()
+        expect(spy.calledOnce).to.be.true
+        expect(res).to.be.equal('text-a')
     })
 })
 

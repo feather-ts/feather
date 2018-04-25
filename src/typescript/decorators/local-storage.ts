@@ -114,3 +114,5 @@ export const LocalStorage = (arrayType?: () => ArrayWidget) => (proto: AnyWidget
 export const Storable = () => (proto: ArrayWidget, property: string) => {
     ensure(storableProperties, proto.constructor, [property])
 }
+
+// todo: write test somehow
