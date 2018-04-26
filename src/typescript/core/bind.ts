@@ -62,8 +62,9 @@ const updateDom = (widget: AnyWidget, template: ParsedTemplate, transformMap: Tr
             continue
         }
         const oldValue = oldValueMap[i],
-            value    = valueMap[i]
-        if (info.type === TemplateTokenType.PROPERTY && (Array.isArray(value) || value instanceof FilteredArray)) { // ignore arrays
+              value = valueMap[i]
+        if (value === ARRAY_TAG) { // ignore arrays
+            widget[info.path()].splice(0, 0)
             continue
         }
         if (oldValue !== value) {
@@ -112,13 +113,14 @@ const bindWidget = (widget: AnyWidget, rootInfo: TemplateTokenInfo, node: Elemen
 }
 
 class FilteredArray {} // flag class for update check
+const ARRAY_TAG = new FilteredArray()
 
 const getInfoValue = (widget: AnyWidget, info: TemplateTokenInfo, transformMap: TransformMap) => {
     const path = info.path(),
         transformer: Function = transformMap[info.curly()]
     let v = deepValue(widget, path)
     if (Array.isArray(v) && isFunction(transformer(v))) {
-        return new FilteredArray()
+        return ARRAY_TAG
     } else {
         v = isFunction(v) ? v.call(widget) : v
         v = transformer ? transformer(v) : v
@@ -135,14 +137,13 @@ const getCurrentValueMap = (widget: AnyWidget, template: ParsedTemplate, transfo
 }
 
 const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget, info: TemplateTokenInfo,
-                   templateName: Function, changeHappened: () => void) => {
+                   templateName: Function) => {
     const method = info.arrayTransformer(),
         transformer = (widget[method] || TransformerRegistry[method]).bind(widget)
     const listener = domArrayListener(
         array,
         parentNode,
         transformer(),
-        changeHappened,
         (item) => {
             const template = getTemplate(item, templateName()),
                 node     = template.nodes[1]
@@ -214,7 +215,7 @@ const bindTemplateInfos = (template: ParsedTemplate, widget: AnyWidget, updateTe
                 } else {
                     templateName = () => attributeValue
                 }
-                bindArray(value, node, widget, info, templateName, () => updateTemplate(false))
+                bindArray(value, node, widget, info, templateName)
                 node.removeAttribute('template')
             }
         }

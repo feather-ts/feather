@@ -116,7 +116,6 @@ export const observeArray = <T>(arr: T[], listener: ArrayListener<T>) => {
 export function domArrayListener(arr: ArrayWidget[],
                                  el: Element,
                                  filter: (item: ArrayWidget, index: number) => boolean,
-                                 changeHappened: () => void,
                                  onItemAdded: (item: ArrayWidget) => Element): ArrayListener<ArrayWidget> {
     const firstChild = el.firstElementChild // usually null, lists that share a parent with other nodes are prepended.
     let nodeVisible: boolean[] = []
@@ -131,7 +130,6 @@ export function domArrayListener(arr: ArrayWidget[],
                 copy[i] = nodeVisible[indices[i]]
             }
             nodeVisible = copy
-            changeHappened()
         },
         splice(index: number, deleteCount: number, added: ArrayWidget[], deleted: ArrayWidget[] = []) {
             const patch = Array.from<boolean>(nodeVisible)
@@ -156,22 +154,17 @@ export function domArrayListener(arr: ArrayWidget[],
                 }
             }
             patch.splice(index, deleteCount, ...added.map(() => true))
-            let change = false
             for (let i = 0, n = arr.length; i < n; i++) {
                 patch[i] = filter(arr[i], i)
+                const itemNode = elementMap.get(arr[i])
                 if (patch[i] && !nodeVisible[i]) {
                     const nextVisible = nodeVisible.indexOf(true, i),
                           refNode     = ~nextVisible ? elementMap.get(arr[nextVisible]) : firstChild
-                    el.insertBefore(elementMap.get(arr[i]), refNode)
-                    change = true
+                    el.insertBefore(itemNode, refNode)
                 }
-                else if (!patch[i] && nodeVisible[i]) {
-                    el.removeChild(elementMap.get(arr[i]))
-                    change = true
+                else if (!patch[i] && nodeVisible[i] && itemNode.parentNode === el) {
+                    el.removeChild(itemNode)
                 }
-            }
-            if (deleteCount || added.length || change) {
-                changeHappened()
             }
             nodeVisible = patch
         }
