@@ -8,10 +8,24 @@ import {CustomComponent} from '../demo/custom-component'
 import Sinon = require('sinon')
 
 class BindItem implements ArrayWidget {
+
+    on: boolean
+
+    constructor(on = true) {
+        this.on = on
+    }
+
     @Template()
     as() {
         return `* `
     }
+
+    @Template('onoff')
+    asOnoff() {
+        return `<li>{{on:toStr}}<li>`
+    }
+
+    toStr = (on: boolean) => on ? 'on' : 'off'
 }
 
 @Construct({selector: 'div.bind'})
@@ -69,6 +83,29 @@ class BindTestWidget implements Widget {
     plusA = (str) => str + 'A'
     size = (arr: any[]) => arr.length
 }
+
+@Construct({selector: 'div.array-bind'})
+class ArrayBindTestWidget implements Widget {
+
+    items: BindItem[] = [new BindItem(), new BindItem(), new BindItem(false)]
+    showActive = true
+
+    init = (el: Element) => render(this, el)
+
+    @Template()
+    markup() {
+        return `
+        <ul {{items:filtered}} template="onoff"/>
+        <span class="size">{{items:size}}</span>
+        <span class="active" filter={{showActive}}>{{items:activeCount}}</span>
+        `
+    }
+
+    size = (arr: BindItem[]) => arr.length
+    filtered = () => (item: BindItem) => this.showActive === item.on
+    activeCount = (arr: BindItem[]) => arr.reduce((p, c) => p + (c.on ? 1 : 0), 0)
+}
+
 
 describe('Bind', () => {
 
@@ -149,6 +186,27 @@ describe('Bind', () => {
         const res = cc.func()
         expect(spy.calledOnce).to.be.true
         expect(res).to.be.equal('text-a')
+    })
+
+    it('should handle complex array case', () => {
+        const doc = getFragment('<div class="array-bind"/>')
+        const [aw] = start(doc as any) as ArrayBindTestWidget[]
+
+        const size = () => parseInt(doc.querySelector('.size').textContent, 10)
+        const activeCount = () => parseInt(doc.querySelector('.active').textContent, 10)
+        const domChildren = () => doc.querySelector('ul').childElementCount
+
+        expect(domChildren()).to.be.equal(2)
+        expect(size()).to.be.equal(3)
+        expect(activeCount()).to.be.equal(2)
+
+        aw.items[0].on = false
+        expect(domChildren()).to.be.equal(1)
+        expect(activeCount()).to.be.equal(1)
+
+        aw.showActive = false
+        expect(domChildren()).to.be.equal(2)
+        expect(activeCount()).to.be.equal(1)
     })
 })
 

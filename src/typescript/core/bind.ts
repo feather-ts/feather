@@ -62,7 +62,7 @@ const updateDom = (widget: AnyWidget, template: ParsedTemplate, transformMap: Tr
             continue
         }
         const oldValue = oldValueMap[i],
-              value    = valueMap[i]
+            value    = valueMap[i]
         if (info.type === TemplateTokenType.PROPERTY && (Array.isArray(value) || value instanceof FilteredArray)) { // ignore arrays
             continue
         }
@@ -115,7 +115,7 @@ class FilteredArray {} // flag class for update check
 
 const getInfoValue = (widget: AnyWidget, info: TemplateTokenInfo, transformMap: TransformMap) => {
     const path = info.path(),
-          transformer: Function = transformMap[info.curly()]
+        transformer: Function = transformMap[info.curly()]
     let v = deepValue(widget, path)
     if (Array.isArray(v) && isFunction(transformer(v))) {
         return new FilteredArray()
@@ -137,7 +137,7 @@ const getCurrentValueMap = (widget: AnyWidget, template: ParsedTemplate, transfo
 const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget, info: TemplateTokenInfo,
                    templateName: Function, changeHappened: () => void) => {
     const method = info.arrayTransformer(),
-          transformer = (widget[method] || TransformerRegistry[method]).bind(widget)
+        transformer = (widget[method] || TransformerRegistry[method]).bind(widget)
     const listener = domArrayListener(
         array,
         parentNode,
@@ -145,7 +145,7 @@ const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget,
         changeHappened,
         (item) => {
             const template = getTemplate(item, templateName()),
-                  node     = template.nodes[1]
+                node     = template.nodes[1]
             runConstructorQueue(item, node)
             connectTemplate(item, node, template, parentNode)
             return node
@@ -189,7 +189,7 @@ const addTemplateAttributeHook = (widget: AnyWidget, node: Element, info: Templa
 }
 
 const bindTemplateInfos = (template: ParsedTemplate, widget: AnyWidget, updateTemplate: Function,
-                           transformMap: TransformMap, arrayListeners: ArrayListener<ArrayWidget>[]) => {
+                           transformMap: TransformMap) => {
     const bound = []
     const infos = template.infos
     for (let info: TemplateTokenInfo, i = 0, n = infos.length; i < n; i++) {
@@ -214,9 +214,7 @@ const bindTemplateInfos = (template: ParsedTemplate, widget: AnyWidget, updateTe
                 } else {
                     templateName = () => attributeValue
                 }
-                arrayListeners.push(
-                    bindArray(value, node, widget, info, templateName, () => updateTemplate(false))
-                )
+                bindArray(value, node, widget, info, templateName, () => updateTemplate(false))
                 node.removeAttribute('template')
             }
         }
@@ -236,23 +234,19 @@ const bindTemplateInfos = (template: ParsedTemplate, widget: AnyWidget, updateTe
     }
 }
 
-export const connectTemplate = (widget: AnyWidget, el: Element, template: ParsedTemplate, parentNode: Element) => {
-    const transformMap = getTransformMap(widget, template),
-          arrayListeners: ArrayListener<ArrayWidget>[] = []
+export const connectTemplate = (widget: AnyWidget, el: Element, template: ParsedTemplate, parentNode = el.parentNode) => {
+    const transformMap = getTransformMap(widget, template)
+
     let res = updateDom(widget, template, transformMap, [])
-    const updateTemplate = (array = true) => {
+    const updateTemplate = () => {
         res = updateDom(widget, template, transformMap, res.valueMap)
         if (res.change) {
             parentNode.dispatchEvent(Update()) // let's inform parent widgets
         }
-        if (array) {
-            for (let i = 0, n = arrayListeners.length; i < n; i++) {
-                arrayListeners[i].splice(0, 0, [], [])
-            }
-        }
     }
     el.addEventListener(UPDATE_KEY, () => throttle(updateTemplate, 80))
-    bindTemplateInfos(template, widget, updateTemplate, transformMap, arrayListeners)
+
+    bindTemplateInfos(template, widget, updateTemplate, transformMap)
     injectTemplateNodes(widget, template.nodes)
 }
 
@@ -275,7 +269,7 @@ export const render = (widget: any, el: Element, name?: string) => {
     }
     el.innerHTML = ''
     const template = getTemplate(widget, name)
-    connectTemplate(widget, el, template, el.parentNode as any)
+    connectTemplate(widget, el, template)
     el.appendChild(template.doc)
 }
 
