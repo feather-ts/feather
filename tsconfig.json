@@ -1,0 +1,23 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es5",
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "allowSyntheticDefaultImports": true,
+        "lib": [
+            "dom",
+            "esnext"
+        ]
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "docs/**",
+        "**/*.spec.ts"
+    ]
+}

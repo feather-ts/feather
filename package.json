@@ -1,0 +1,57 @@
+{
+    "name": "@feather-ts/feather-ts",
+    "version": "2.0.71",
+    "description": "A light-weight component framework written in typescript",
+    "repository": "git@github.com:Feather-Ts/feather.git",
+    "types": "dist/feather.d.ts",
+    "main": "dist/feather.js",
+    "files": [
+        "dist"
+    ],
+    "author": "Andreas Herd",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/fetch-mock": "6.0.1",
+        "@types/mocha": "5.2.0",
+        "@types/sinon": "4.3.1",
+        "bulma": "0.7.1",
+        "chai": "4.1.2",
+        "fetch-mock": "6.3.0",
+        "isomorphic-fetch": "2.2.1",
+        "jsdom": "11.9.0",
+        "mocha": "5.1.1",
+        "mq-polyfill": "1.1.8",
+        "node-storage-shim": "1.0.1",
+        "npm-run-all": "4.1.2",
+        "parse5": "4.0.0",
+        "postcss": "6.0.21",
+        "postcss-cssnext": "3.1.0",
+        "postcss-import": "11.1.0",
+        "postcss-nested": "3.0.0",
+        "rimraf": "2.6.2",
+        "rollup-plugin-commonjs": "9.1.0",
+        "rollup-plugin-node-resolve": "3.3.0",
+        "rollup-plugin-postcss": "1.6.1",
+        "rollup-plugin-typescript2": "0.13.0",
+        "rollup-plugin-url": "1.4.0",
+        "sinon": "4.5.0",
+        "stylelint": "9.2.0",
+        "ts-node": "6.0.1",
+        "tslint": "5.9.1",
+        "typescript": "2.8.3"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "watch": "parcel src/html/index.html -p 9080",
+        "clean": "rimraf dist lib",
+        "npm:version": "npm --no-git-tag-version version patch",
+        "feather:compile": "tsc -d",
+        "feather:watch": "tsc -d -w",
+        "docs": "(cd docs-src) && (hugo -d ../docs)",
+        "bundle": "rollup -c",
+        "prepare": "npm-run-all clean npm:version feather:compile",
+        "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"
+    }
+}

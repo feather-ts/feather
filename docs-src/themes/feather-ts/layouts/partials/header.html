@@ -1,0 +1,20 @@
+<nav id="header" aria-label="Header">
+  <div id="logo">
+    <a href="{{ .Site.BaseURL }}" class="project">
+        {{ with .Site.Params.logo }}
+          <img src="{{ $.Site.BaseURL }}{{ . }}">
+        {{ end }}
+    </a>
+  </div>
+  <div class="bar search">
+      <form action="https://github.com/feather-ts/feather/issues" method="get">
+        <label for="search" class="fa fa-search">
+           <input id ="search" type="text" name="q" autocomplete="off" placeholder="Search github issues" value="is:issue is:open">
+        </label>
+      </form>
+  </div>
+</nav>
+<div class="drawer">
+  {{ partial "drawer" . }}
+</div>
+
