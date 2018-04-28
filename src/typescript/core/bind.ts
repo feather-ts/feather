@@ -122,11 +122,8 @@ const getInfoValue = (widget: AnyWidget, info: TemplateTokenInfo, transformMap: 
     const path                  = info.path(),
           transformer: Function = transformMap[info.curly()]
     let v = deepValue(widget, path)
-    const isArray = Array.isArray(v)
-    if (isArray && isFunction(transformer(v))) {
-        return FILTERED_ARRAY_TAG
-    } else if (isArray && info.type === TemplateTokenType.PROPERTY) {
-        return ARRAY_TAG
+    if (info.type === TemplateTokenType.PROPERTY && Array.isArray(v)) {
+        return isFunction(transformer(v)) ? FILTERED_ARRAY_TAG : ARRAY_TAG
     } else {
         v = isFunction(v) ? v.call(widget) : v
         v = transformer ? transformer(v) : v
