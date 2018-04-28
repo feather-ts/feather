@@ -5,7 +5,7 @@ title: Getting started
 
 ## Installation
 
-`npm install feather-ts --save`
+`npm install @feather-ts/feather-ts --save`
 
 ## Components
 

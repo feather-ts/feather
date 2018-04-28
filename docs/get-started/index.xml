@@ -17,7 +17,7 @@
       <pubDate>Tue, 05 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/get-started/</guid>
-      <description>Installation npm install feather-ts --save
+      <description>Installation npm install @feather-ts/feather-ts --save
 Components Feather provides two interfaces to turn any class into a component: Widget and ArrayWidget. Widget has a method init(el: Element) which is called when the component has been mounted to the dom. ArrayWidget tags classes that are added to arrays of a parent component. It has no init method, because initialization can be done in its constructor.
  Since feather has logic-less templates, the only way to swap out dom elements is via array bindings All decorators should be attached to the leaf class of a component.</description>
     </item>

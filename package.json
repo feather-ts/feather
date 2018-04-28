@@ -1,6 +1,6 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.73",
+    "version": "2.0.74",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
