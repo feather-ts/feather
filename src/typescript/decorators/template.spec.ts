@@ -16,6 +16,11 @@ const templateSpecTemplate = `
 
 describe('Templates', () => {
 
+    it('should render table rows', () => {
+        const doc = getFragment('<tr><td>text</td></tr>')
+        expect(doc.firstElementChild.tagName).to.be.equal('TR')
+    })
+
     it('break apart text nodes', () => {
         const doc = getFragment('<div>{{this}} {{is}} a text {{apart}}{{test}}</div>')
         const div = breakApartTextNodes(doc).querySelector('div')

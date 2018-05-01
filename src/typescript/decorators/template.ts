@@ -77,8 +77,11 @@ export const breakApartTextNodes = (root: DocumentFragment) => {
     return root
 }
 
-export const getFragment = (html: string) =>
-    document.createRange().createContextualFragment(html)
+export const getFragment = (html: string) => {
+    const templateTag = document.createElement('template') as HTMLTemplateElement
+    templateTag.innerHTML = html
+    return templateTag.content
+}
 
 export class ParsedTemplate {
     infos: TemplateTokenInfo[]
