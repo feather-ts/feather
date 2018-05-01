@@ -49,7 +49,7 @@ const createHandler = (event: string, conf: BoundEventConfig, widget: AnyWidget,
 const attachEvents = (conf) => (widget: AnyWidget, node: Element) => {
     const events = Array.isArray(conf.event) ? conf.event : [conf.event]
     events.forEach(event => {
-        if (Scope.Direct && isDef(conf.selector)) {
+        if (conf.scope === Scope.Direct && isDef(conf.selector)) {
             node = node.querySelector(conf.selector)
         }
         const handler = createHandler(
