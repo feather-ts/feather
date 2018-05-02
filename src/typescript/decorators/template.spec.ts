@@ -24,13 +24,14 @@ describe('Templates', () => {
     it('break apart text nodes', () => {
         const doc = getFragment('<div>{{this}} {{is}} a text {{apart}}{{test}}</div>')
         const div = breakApartTextNodes(doc).querySelector('div')
-        expect(div.childNodes.length).to.be.equal(6)
-        expect(div.childNodes[0].textContent).to.be.equal('{{this}}')
-        expect(div.childNodes[1].textContent).to.be.equal(' ')
-        expect(div.childNodes[2].textContent).to.be.equal('{{is}}')
-        expect(div.childNodes[3].textContent).to.be.equal(' a text ')
-        expect(div.childNodes[4].textContent).to.be.equal('{{apart}}')
-        expect(div.childNodes[5].textContent).to.be.equal('{{test}}')
+        const nodes = div.childNodes
+        expect(nodes.length).to.be.equal(6)
+        expect(nodes[0].textContent).to.be.equal('{{this}}')
+        expect(nodes[1].textContent).to.be.equal(' ')
+        expect(nodes[2].textContent).to.be.equal('{{is}}')
+        expect(nodes[3].textContent).to.be.equal(' a text ')
+        expect(nodes[4].textContent).to.be.equal('{{apart}}')
+        expect(nodes[5].textContent).to.be.equal('{{test}}')
     })
 
     it('should assign info curly', () => {
@@ -42,18 +43,19 @@ describe('Templates', () => {
 
     it('should parse template correctly', () => {
         const template = parseTemplate(templateSpecTemplate)
-        expect(template.infos.length).to.be.equal(11)
-        expect(template.infos[0].type).to.be.equal(TemplateTokenType.CLASS)
-        expect(template.infos[1].type).to.be.equal(TemplateTokenType.PROPERTY)
-        expect(template.infos[2].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
-        expect(template.infos[3].type).to.be.equal(TemplateTokenType.TEXT)
-        expect(template.infos[4].type).to.be.equal(TemplateTokenType.TAG)
-        expect(template.infos[5].type).to.be.equal(TemplateTokenType.CLASS)
-        expect(template.infos[6].type).to.be.equal(TemplateTokenType.PROPERTY)
-        expect(template.infos[7].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
-        expect(template.infos[8].type).to.be.equal(TemplateTokenType.TEXT)
-        expect(template.infos[9].type).to.be.equal(TemplateTokenType.TAG)
-        expect(template.infos[10].type).to.be.equal(TemplateTokenType.TEMPLATE)
+        const infos: TemplateTokenInfo[] = template.infos
+        expect(infos.length).to.be.equal(11)
+        expect(infos[0].type).to.be.equal(TemplateTokenType.CLASS)
+        expect(infos[1].type).to.be.equal(TemplateTokenType.PROPERTY)
+        expect(infos[2].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
+        expect(infos[3].type).to.be.equal(TemplateTokenType.TEXT)
+        expect(infos[4].type).to.be.equal(TemplateTokenType.TAG)
+        expect(infos[5].type).to.be.equal(TemplateTokenType.CLASS)
+        expect(infos[6].type).to.be.equal(TemplateTokenType.PROPERTY)
+        expect(infos[7].type).to.be.equal(TemplateTokenType.ATTRIBUTE)
+        expect(infos[8].type).to.be.equal(TemplateTokenType.TEXT)
+        expect(infos[9].type).to.be.equal(TemplateTokenType.TAG)
+        expect(infos[10].type).to.be.equal(TemplateTokenType.TEMPLATE)
     })
 
     it('should preserve case', () => {
@@ -65,10 +67,11 @@ describe('Templates', () => {
     it('should clone template ', () => {
         const template = parseTemplate('<div template={{a}}><span test="{{a}}" {{a}}>{{a}}</span></div>')
         const clone = template.clone()
-        expect(clone.nodes.length).to.be.equal(4)
-        expect(clone.nodes[0]).to.be.a('DocumentFragment')
-        expect(clone.nodes[1].tagName).to.be.equal('DIV')
-        expect(clone.nodes[2].tagName).to.be.equal('SPAN')
+        const nodes = clone.nodes
+        expect(nodes.length).to.be.equal(4)
+        expect(nodes[0]).to.be.a('DocumentFragment')
+        expect((nodes[1] as Element).tagName).to.be.equal('DIV')
+        expect((nodes[2] as Element).tagName).to.be.equal('SPAN')
         expect(clone.infos.length).to.be.equal(4)
     })
 

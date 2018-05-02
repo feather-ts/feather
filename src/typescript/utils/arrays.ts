@@ -1,5 +1,6 @@
 import {ArrayWidget} from '../decorators/construct'
 import {cleanUp, registerCleanUp} from '../core/cleanup'
+import {isUndef} from './functions'
 
 type   MethodKey = 'sort' | 'splice'
 const observers = new WeakMap<any[], ArrayListener<any>[]>()
@@ -117,8 +118,8 @@ export const observeArray = <T>(arr: T[], listener: ArrayListener<T>) => {
 export type Filter = (item: ArrayWidget, index: number) => boolean
 export type OnItemAdded = (item: ArrayWidget) => Element
 
-export function domArrayListener(arr: ArrayWidget[], el: Element, filter: Filter,
-                                 update: Function, onItemAdded: OnItemAdded): ArrayListener<ArrayWidget> {
+export function domArrayListener(arr: ArrayWidget[], el: Element, update: Function,
+                                 onItemAdded: OnItemAdded, filter: Filter): ArrayListener<ArrayWidget> {
     let nodeVisible: boolean[] = []
     const elementMap = new WeakMap<ArrayWidget, Element>()
     const listener: ArrayListener<ArrayWidget> = {
@@ -161,7 +162,7 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, filter: Filter
             }
             patch.splice.apply(patch, patchHelper)
             for (let i = 0, n = arr.length; i < n; i++) {
-                patch[i] = filter(arr[i], i)
+                patch[i] = isUndef(filter) || filter(arr[i], i)
                 const itemNode = elementMap.get(arr[i])
                 if (patch[i] && !nodeVisible[i]) {
                     const nextVisible = nodeVisible.indexOf(true, i),

@@ -141,12 +141,10 @@ const getCurrentValueMap = (widget: AnyWidget, template: ParsedTemplate, transfo
 
 const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget, info: TemplateTokenInfo,
                    templateName: Function, update: Function) => {
-    const method      = info.arrayTransformer(),
-          transformer = (widget[method] || TransformerRegistry[method]).bind(widget)
+    const transformer = info.arrayTransformer() ? transformFactory(widget, info.transformers())() : undefined
     const listener = domArrayListener(
         array,
         parentNode,
-        transformer(),
         update,
         (item) => {
             const template = getTemplate(item, templateName()),
@@ -154,7 +152,8 @@ const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget,
             runConstructorQueue(item, node)
             connectTemplate(item, node, template, parentNode)
             return node
-        }
+        },
+        transformer
     )
     observeArray(array, listener)
     return listener

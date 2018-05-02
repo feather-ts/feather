@@ -6,10 +6,14 @@ import {getFragment} from '../decorators/template'
 describe('Dom', () => {
 
     it('should collect all child nodes', () => {
-        const str = `<div><span/><p/><ul><li/><li/></ul><span/></div>`
+        const str = `<div><span/>text 1<p/> <ul><li>text 2</li><li/></ul>text 2<span/> </div>`
         const frag = getFragment(str)
         const childNodes = allChildNodes(frag)
-        expect(childNodes.length).to.be.equal(8)
+        expect(childNodes.length).to.be.equal(11)
+        const textNodes = childNodes.reduce((p, c) => p + (c.nodeType === Node.TEXT_NODE ? 1 : 0), 0)
+        expect(textNodes).to.be.equal(3)
+        const normalNodes = childNodes.reduce((p, c) => p + (c.nodeType === Node.ELEMENT_NODE ? 1 : 0), 0)
+        expect(normalNodes).to.be.equal(7)
         expect(childNodes[0]).to.be.equal(frag)
     })
 

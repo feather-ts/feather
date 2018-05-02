@@ -54,7 +54,7 @@ export class TemplateTokenInfo {
         if (this._transformers.length > 1) {
             throw Error('Array filter transformer can have only one method')
         }
-        return this.transformers()[0] || 'arrayidentity'
+        return this.transformers()[0]
     }
 }
 
@@ -79,7 +79,7 @@ export const breakApartTextNodes = (root: DocumentFragment) => {
 
 const templateTag = document.createElement('template')
 
-export const getFragment = (html: string) => {
+export const getFragment = (html: string): DocumentFragment => {
     templateTag.innerHTML = html
     return document.importNode(templateTag.content, true)
 }
