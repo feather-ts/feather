@@ -77,10 +77,11 @@ export const breakApartTextNodes = (root: DocumentFragment) => {
     return root
 }
 
+const templateTag = document.createElement('template')
+
 export const getFragment = (html: string) => {
-    const templateTag = document.createElement('template') as HTMLTemplateElement
     templateTag.innerHTML = html
-    return templateTag.content
+    return document.importNode(templateTag.content, true)
 }
 
 export class ParsedTemplate {

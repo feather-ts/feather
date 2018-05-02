@@ -8,13 +8,14 @@ let window = new JSDOM('<!doctype html><html><body></body></html>', {url: "https
 matchMediaPolyfill(window)
 
 const copy = ["document", "location", "history", "matchMedia", "MutationObserver",
-    "CustomEvent", "Node", "NodeFilter", "MouseEvent"]
+    "CustomEvent", "Node", "NodeFilter", "MouseEvent", "DOMParser"]
 
 global.window = window
 copy.forEach(prop => global[prop] = window[prop])
 
 global.document.createRange = () => ({
-  createContextualFragment: str => JSDOM.fragment(str)
+  createContextualFragment: str => JSDOM.fragment(str),
+  selectNodeContents: () => 0
 })
 
 global.window.localStorage = new Storage()
