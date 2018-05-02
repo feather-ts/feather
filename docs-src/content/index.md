@@ -9,9 +9,9 @@ its tiny footprint it is self-contained and provides templating, routing, messag
 rest api integration out of the box.
 
 It relies heavily on decorators and grants the developer the freedom to subclass their components from anything they want.
-Further more it has logic-less templates with a very simple binding syntax and no dom diffing overhead. It is targeted at 
-developers who are tired of the bloat and unnecessary complexity that has spread into frontend development. If you enjoy  
-talking about actions, intents, drivers, watchers, or sinks then feather-ts might not be for you.   
+Further more it has logic-less templates with a very simple binding syntax and no virtual dom diffing overhead. It is 
+targeted at developers who are tired of the bloat and unnecessary complexity that has spread into frontend development.
+If you enjoy talking about actions, intents, drivers, watchers, observables or sinks then feather-ts might not be for you.   
 
 Unlike many other frameworks feather doesn't utilize a virtual dom. This has pros and cons that you should consider before 
 starting a project. It does not provide server-side rendering by itself, but this can be achieved with many other 
@@ -35,7 +35,7 @@ having to wait for the render loop to complete.
 Feather is a back to the basics tool and tries to make coding SPAs fun again. If you come back 
 to your code months from now, you won't have to wonder what you did to make the framework work
 or how the data flow was going. The code is flat and reduced to your own business logic without
-any dogmatic constructs you would need to follow. 
+any dogmatic constructs. 
 
 ## Intellij IDEA
 
