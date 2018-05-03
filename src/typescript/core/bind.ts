@@ -1,13 +1,12 @@
 import {CURLIES, getTemplate, ParsedTemplate, SINGLE_CURLIES, TemplateTokenInfo, TemplateTokenType} from '../decorators/template'
 import {compose, isDef, isFunction, isUndef} from '../utils/functions'
 import {addPropertyListener, createObjectPropertyListener, deepValue, ensure} from '../utils/objects'
-import {addToConstructorQueue, AnyWidget, ArrayWidget, ConstructRegistry, EnhancedConstructor, runConstructorQueue, Widget} from '../decorators/construct'
+import {addToConstructorQueue, AnyWidget, ArrayWidget, ConstructRegistry, EnhancedConstructor, runAfterRenderQueue, runConstructorQueue, Widget} from '../decorators/construct'
 import {TransformerRegistry} from '../decorators/transformer'
 import {domArrayListener, observeArray} from '../utils/arrays'
 import {createComputedListener} from '../decorators/computed'
 import {cleanUp} from './cleanup'
 import {allChildNodes} from '../utils/dom'
-import {injectTemplateNodes} from '../decorators/template-node'
 import {camelCaseFromHyphens} from '../utils/strings'
 
 type TransformMap = { [k: string]: (val: any) => any }
@@ -252,7 +251,6 @@ export const connectTemplate = (widget: AnyWidget, el: Element, template: Parsed
     }
     el.addEventListener(UPDATE_KEY, updateTemplate, {passive: true, capture: false})
     bindTemplateInfos(template, widget, updateTemplate, transformMap)
-    injectTemplateNodes(widget, template.nodes)
 }
 
 const transformFactory = (widget: AnyWidget, transformers: string[]) =>
@@ -274,6 +272,7 @@ export const render = (widget: any, el: Element, name?: string) => {
     const template = getTemplate(widget, name)
     connectTemplate(widget, el, template)
     el.appendChild(template.doc)
+    runAfterRenderQueue(widget, Array.from(el.children))
 }
 
 export const findWidgets = <T>(widget: Widget, type: { new(...args: any[]): T }): T[] =>

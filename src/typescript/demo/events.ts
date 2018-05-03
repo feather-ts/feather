@@ -2,6 +2,7 @@ import {Template} from '../decorators/template'
 import {Construct, Widget} from '../decorators/construct'
 import {render} from '../core/bind'
 import './node'
+import './element-responsive'
 
 @Construct({selector: 'events', singleton: true})
 export class Events implements Widget {
@@ -17,6 +18,7 @@ export class Events implements Widget {
         <div class="columns bd-content">
             <div class="column">
                 <p class="error no-validation">
+                    <element-responsive/>
                 </p>
             </div>
             <div class="column">

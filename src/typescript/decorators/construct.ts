@@ -50,15 +50,29 @@ export const Construct = (conf: ConstructConf) => (proto: any) => {
 }
 
 const queue = new WeakMap<EnhancedConstructor, Function[]>()
+const renderQueue = new WeakMap<EnhancedConstructor, Function[]>()
 
 export const addToConstructorQueue = (constructor: EnhancedConstructor, func: Function) => {
     ensure(queue, constructor, [func])
 }
 
-export const runConstructorQueue = (widget: {}, node: Node) => {
+export const addToRenderQueue = (constructor: EnhancedConstructor, func: Function) => {
+    ensure(renderQueue, constructor, [func])
+}
+
+export const runConstructorQueue = (widget: AnyWidget, node: Node) => {
     const widgetQueue = queue.get(Object.getPrototypeOf(widget).constructor) || []
     for (let i = 0, n = widgetQueue.length; i < n; i++) { // for performance
         widgetQueue[i].call(widget, widget, node)
+    }
+}
+
+export const runAfterRenderQueue = (widget: AnyWidget, nodes: Node[]) => {
+    const widgetQueue = renderQueue.get(Object.getPrototypeOf(widget).constructor) || []
+    for (let i = 0, n = widgetQueue.length; i < n; i++) { // for performance use for-loops
+        for (let m = 0, l = nodes.length; m < l; m++) {
+            setTimeout(() => widgetQueue[i].call(widget, widget, nodes[m]), 0)
+        }
     }
 }
 
