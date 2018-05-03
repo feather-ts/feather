@@ -246,9 +246,9 @@ When using historyAPI make sure all your document urls load the original documen
 
 ## Template node
 
-`@TemplateNode()`
+`@TemplateNode(selector: string)`
 
-A small helper that will populate properties decorated with this with elements from within the template. The property is only available 
+A small helper that will populate properties decorated with an element from within the template. The property is only available 
 after render() was called.
 
 ## Transformer
