@@ -224,11 +224,13 @@ export class Responsive implements Widget {
 
 ## ElementQuery
 
-`@ElementQuery(elementQuery: string)`
+`@ElementQuery(elementQuery: string, ...events: string[])`
 
 Similar to MediaQueries you can write responsive components reacting to an element query. An element query is an
 evaluated javascript in the context of the root node of a component. Valid element queries would look like this:
-`@ElementQuery('clientWidth > 300 || clientHeight > 100')`. The query is re-evaluated when the browser window resizes.
+`@ElementQuery('clientWidth > 300 || clientHeight > 100')`. The query is re-evaluated when one of the window attached 
+`events` from the parameter list triggers, default event list is just `resize`. But you can change this to a 
+scroll or orientation change or whatever you want to check against.
 
 ## Router
 

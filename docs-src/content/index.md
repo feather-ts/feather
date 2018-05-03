@@ -25,7 +25,7 @@ having to wait for the render loop to complete.
 * Easy REST consumption
 * Pure HTML templates without logic and a very simple binding syntax
 * Event delegation out of the box
-* Integrated media-query support in components
+* Integrated media-query and element query support in components
 * Runs in all major ever-green browsers (IE11 needs polyfills)
 * Generates clean HTML without any trace of the framework
 * No need to wrap your data objects or use awkward factories
