@@ -29,7 +29,7 @@ It relies heavily on decorators and grants the developer the freedom to subclass
       <guid>/get-started/</guid>
       <description>Installation npm install @feather-ts/feather-ts --save
 Components Feather provides two interfaces to turn any class into a component: Widget and ArrayWidget. Widget has a method init(el: Element) which is called when the component has been mounted to the dom. ArrayWidget tags classes that are added to arrays of a parent component. It has no init method, because initialization can be done in its constructor.
- Since feather has logic-less templates, the only way to swap out dom elements is via array bindings All decorators should be attached to the leaf class of a component.</description>
+ All decorators should be attached to the leaf class of a component.</description>
     </item>
     
     <item>
@@ -61,7 +61,7 @@ myPages: Page[] = [] @Route(&#39;/login&#39;) onPath(params) { this.myPage.splic
       <guid>/packaging/</guid>
       <description>Packaging You can use browserify, parcel-bundler or any other existing technology to pack and bundle feather applications.
 Imports Right you can use all feather-ts parts by importing the files directly from NPM:
-import {Construct} from &#39;@feather-ts/feather-ts/dist/decorators/construct&#39;
+import {Construct} from &#39;@feather-ts/feather-ts&#39;
 There will be a commonjs and es6 bundles distribution available too, but we recommend to include only the bits and pieces required for your own app, instead of the full bundled package.</description>
     </item>
     

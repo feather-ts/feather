@@ -14,7 +14,6 @@ Feather provides two interfaces to turn any `class` into a component: `Widget` a
 to the dom. `ArrayWidget` tags classes that are added to arrays of a parent component. It has no 
 init method, because initialization can be done in its constructor.
 
-> Since feather has logic-less templates, the only way to swap out dom elements is via array bindings
 > All decorators should be attached to the leaf class of a component.
 
 ## Mounting to the dom
@@ -46,7 +45,7 @@ class MyWidget implements Widget {
 }
 ```
 
-Furthermore you can also have renderless widgets, that just attach dom events or manipulate their childnodes. 
+Furthermore you can also have renderless widgets that just attach dom events or manipulate their childnodes. 
 
 ## Bootstrapping
 
@@ -54,7 +53,7 @@ Once you have written some components you need to kickstart feather. The recomme
 an entry script that will contain a) imports of your initial components and b) the start call:
 
 ```typescript
-import {start} from 'feather-ts/decorators/construct'
+import {start} from '@feather-ts/feather-ts'
 import './demo/app'
 
 start()

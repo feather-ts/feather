@@ -168,8 +168,7 @@ to the dom. <code>ArrayWidget</code> tags classes that are added to arrays of a 
 init method, because initialization can be done in its constructor.</p>
 
 <blockquote>
-<p>Since feather has logic-less templates, the only way to swap out dom elements is via array bindings
-All decorators should be attached to the leaf class of a component.</p>
+<p>All decorators should be attached to the leaf class of a component.</p>
 </blockquote>
 
 <h2 id="mounting-to-the-dom">Mounting to the dom</h2>
@@ -200,14 +199,14 @@ class MyWidget implements Widget {
 }
 </code></pre>
 
-<p>Furthermore you can also have renderless widgets, that just attach dom events or manipulate their childnodes.</p>
+<p>Furthermore you can also have renderless widgets that just attach dom events or manipulate their childnodes.</p>
 
 <h2 id="bootstrapping">Bootstrapping</h2>
 
 <p>Once you have written some components you need to kickstart feather. The recommended way is to create
 an entry script that will contain a) imports of your initial components and b) the start call:</p>
 
-<pre><code class="language-typescript">import {start} from 'feather-ts/decorators/construct'
+<pre><code class="language-typescript">import {start} from '@feather-ts/feather-ts'
 import './demo/app'
 
 start()
