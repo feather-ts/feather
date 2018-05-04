@@ -20,8 +20,8 @@ export const ElementQuery = (fn: (element: Element) => boolean, ...events: strin
     if (!events || events.length === 0) {
         events = ['resize']
     }
-    addToRenderQueue(proto.constructor as EnhancedConstructor, (widget: AnyWidget, node: Node) => {
-        const handler = changeHandler(widget, node, method, fn)
+    addToRenderQueue(proto.constructor as EnhancedConstructor, (widget: AnyWidget, node: Element) => {
+        const handler = changeHandler(widget, node.firstElementChild, method, fn)
         events.forEach(event => window.addEventListener(event, handler, options as any)) // change this to have only one window event
         registerCleanUp(node, () => events.forEach(event => window.removeEventListener(event, handler, options as any)))
         handler(null)
