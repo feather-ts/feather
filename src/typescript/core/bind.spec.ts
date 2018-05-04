@@ -101,7 +101,9 @@ class ArrayBindTestWidget implements Widget {
     @Template()
     markup() {
         return `
-        <ul {{items:filtered}} template="onoff"/>
+        <ul class="unfiltered" {{items}} template="onoff"/>
+        <ul class="filtered" {{items:filtered}} template="onoff"/>
+        <ul class="filtered2" {{items:filtered2}} template="onoff"/>
         <span class="size">{{items:size}}</span>
         <span class="active" filter={{showActive}}>{{items:activeCount}}</span>
         `
@@ -109,6 +111,7 @@ class ArrayBindTestWidget implements Widget {
 
     size = (arr: BindItem[]) => arr.length
     filtered = () => (item: BindItem) => this.showActive === item.on
+    filtered2 = () => (item: BindItem, idx) => idx % 2 === 0
     activeCount = (arr: BindItem[]) => arr.reduce((p, c) => p + (c.on ? 1 : 0), 0)
 }
 
@@ -201,22 +204,32 @@ describe('Bind', () => {
 
         const size = () => parseInt(doc.querySelector('.size').textContent, 10)
         const activeCount = () => parseInt(doc.querySelector('.active').textContent, 10)
-        const domChildren = () => doc.querySelector('ul').childElementCount
+        const filteredChildren = () => doc.querySelector('ul.filtered').childElementCount
+        const unfilteredChildren = () => doc.querySelector('ul.unfiltered').childElementCount
 
         expect(size()).to.be.equal(0)
-
         aw.items.push(new BindItem(), new BindItem(), new BindItem(false))
-        expect(domChildren()).to.be.equal(2)
+        expect(filteredChildren()).to.be.equal(2)
+        expect(unfilteredChildren()).to.be.equal(3)
         expect(size()).to.be.equal(3)
         expect(activeCount()).to.be.equal(2)
 
         aw.items[0].on = false
-        expect(domChildren()).to.be.equal(1)
+        expect(filteredChildren()).to.be.equal(1)
+        expect(unfilteredChildren()).to.be.equal(3)
         expect(activeCount()).to.be.equal(1)
 
         aw.showActive = false
-        expect(domChildren()).to.be.equal(2)
+        expect(filteredChildren()).to.be.equal(2)
+        expect(unfilteredChildren()).to.be.equal(3)
         expect(activeCount()).to.be.equal(1)
+        // do a full re-add
+        aw.items.splice(0, aw.items.length, ...aw.items.map(_ => new BindItem(true)))
+        expect(filteredChildren()).to.be.equal(0)
+        expect(unfilteredChildren()).to.be.equal(3)
+
+        aw.showActive = true
+        expect(filteredChildren()).to.be.equal(3)
     })
 })
 
