@@ -212,6 +212,7 @@ const bindTemplateInfos = (template: ParsedTemplate, widget: AnyWidget, updateTe
                 if (isDef(templateInfo) && CURLIES.test(attributeValue)) {
                     templateName = () => getInfoValue(widget, templateInfo, transformMap)
                     addPropertyListener(widget, templateInfo.path(), () => {
+                        // this is expensive, should only run for particular listeners
                         value.splice(0, value.length, ...value)
                     })
                 } else {

@@ -71,7 +71,7 @@ export const runAfterRenderQueue = (widget: AnyWidget, nodes: Node[]) => {
     const widgetQueue = renderQueue.get(Object.getPrototypeOf(widget).constructor) || []
     for (let i = 0, n = widgetQueue.length; i < n; i++) { // for performance use for-loops
         for (let m = 0, l = nodes.length; m < l; m++) {
-            setTimeout(() => widgetQueue[i].call(widget, widget, nodes[m]), 0)
+            widgetQueue[i].call(widget, widget, nodes[m])
         }
     }
 }

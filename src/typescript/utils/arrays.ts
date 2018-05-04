@@ -145,20 +145,19 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, update: Functi
                     const node = elementMap.get(del)
                     if (node && node.parentElement === el) {
                         el.removeChild(node)
-                        cleanUp(node)
-                        elementMap.delete(del)
                     }
+                    cleanUp(node)
+                    elementMap.delete(del)
                 }
-                update()
             }
             if (added.length) {
                 for (let item, a = 0, n = added.length; a < n; a++) {
                     item = added[a]
-                    if (!elementMap.has(item)) {
-                        elementMap.set(item, onItemAdded(item))
-                    }
+                    elementMap.set(item, onItemAdded(item))
                 }
-                update()
+            }
+            if (deleteCount || added.length) {
+                setTimeout(() => update(), 0) // todo make this work without timeout
             }
             patch.splice.apply(patch, patchHelper)
             for (let i = 0, n = arr.length; i < n; i++) {
