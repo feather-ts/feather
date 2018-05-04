@@ -238,7 +238,9 @@ Similar to MediaQueries you can write responsive components reacting to an eleme
 re-evaluated when one of the `window` attached `events` from the parameter list triggers. If none are given it 
 triggers on window resize, but you can change this to a scroll or orientation event for example. Unlike media 
 queries element queries can only run when the component has been mounted to the dom. Make sure your render method 
-is neutral enough to avoid any content flicker when one of the element queries triggers. 
+is neutral enough to avoid any content flicker when one of the element queries triggers.
+
+> Never call `render` inside `ElementQuery` decorated methods: it will result in an infinite loop. 
 
 ## Router
 

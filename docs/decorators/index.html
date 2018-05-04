@@ -398,6 +398,10 @@ triggers on window resize, but you can change this to a scroll or orientation ev
 queries element queries can only run when the component has been mounted to the dom. Make sure your render method
 is neutral enough to avoid any content flicker when one of the element queries triggers.</p>
 
+<blockquote>
+<p>Never call <code>render</code> inside <code>ElementQuery</code> decorated methods: it will result in an infinite loop.</p>
+</blockquote>
+
 <h2 id="router">Router</h2>
 
 <p><code>@Route('/:path')</code></p>

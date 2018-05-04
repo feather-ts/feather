@@ -11,12 +11,12 @@ export class ElementResponsive implements Widget {
     init = (el: Element) => render(this, el)
 
     @ElementQuery((el: Element) => el.clientWidth < 300)
-    small() {
+    small(ev, el: Element) {
         this.string = 'small'
     }
 
     @ElementQuery((el: Element) => el.clientWidth >= 300)
-    big() {
+    big(ev, el: Element) {
         this.string = 'big'
     }
 
