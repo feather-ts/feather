@@ -8,7 +8,7 @@ import {createComputedListener} from '../decorators/computed'
 import {cleanUp} from './cleanup'
 import {allChildNodes} from '../utils/dom'
 import {camelCaseFromHyphens} from '../utils/strings'
-import {injectArray} from '../decorators/inject'
+import {injectArray} from '../decorators/in-array'
 
 type TransformMap = { [k: string]: (val: any) => any }
 
@@ -282,8 +282,6 @@ export const render = (widget: any, el: Element, name?: string) => {
     el.appendChild(template.doc)
     runAfterRenderQueue(widget, Array.from(el.children))
 }
-
-export const removeFromSubwidgets = (widget: Widget) => subWidgets.delete(widget)
 
 export const findWidgets = <T>(widget: Widget, type: { new(...args: any[]): T }): T[] =>
     subWidgets.get(widget).filter(t => Object.getPrototypeOf(t) === type.prototype)
