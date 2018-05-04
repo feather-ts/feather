@@ -266,8 +266,10 @@ export const render = (widget: any, el: Element, name?: string) => {
     const children = allChildNodes(el)
     for (let node: Node, i = 1, n = children.length; i < n; i++) { // first element is 'el' itself
         node = children[i]
+        if (node.parentNode === el) {
+            el.removeChild(node)
+        }
         cleanUp(node)
-        el.removeChild(node)
     }
     const template = getTemplate(widget, name)
     connectTemplate(widget, el, template)

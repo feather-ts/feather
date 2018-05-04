@@ -3,21 +3,26 @@ import {registerCleanUp} from '../core/cleanup'
 
 const options = {passive: true}
 
-export const ElementQuery = (query: string, ...events: string[]) => (proto: AnyWidget, method: string) => {
+const changeHandler = (widget, node, method, fn) => {
+    let old
+    return (ev) => {
+        const res = fn(node)
+        if (!old && res) {
+            old = true
+            widget[method](ev, node)
+        } else if (!res) {
+            old = false
+        }
+    }
+}
+
+export const ElementQuery = (fn: (element: Element) => boolean, ...events: string[]) => (proto: AnyWidget, method: string) => {
     if (!events || events.length === 0) {
         events = ['resize']
     }
-    const func = new Function('node', `with (node) {return (${query})}`)
-    const changeHandler = (widget, node) => {
-        return (ev) => {
-            if (func(node)) {
-                widget[method](ev, node)
-            }
-        }
-    }
     addToRenderQueue(proto.constructor as EnhancedConstructor, (widget: AnyWidget, node: Node) => {
-        const handler = changeHandler(widget, node)
-        events.forEach(event => window.addEventListener(event, handler, options as any))
+        const handler = changeHandler(widget, node, method, fn)
+        events.forEach(event => window.addEventListener(event, handler, options as any)) // change this to have only one window event
         registerCleanUp(node, () => events.forEach(event => window.removeEventListener(event, handler, options as any)))
         handler(null)
     })
