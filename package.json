@@ -1,6 +1,6 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.84",
+    "version": "2.0.85",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
@@ -53,6 +53,7 @@
         "feather:watch": "tsc -d -w",
         "docs": "(cd docs-src) && (hugo -d ../docs)",
         "docs:watch": "(cd docs-src) && (hugo -w -d ../docs server)",
+        "bundle:watch": "rollup -c -w",
         "bundle": "rollup -c",
         "prepare": "npm-run-all clean npm:version feather:compile bundle",
         "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"

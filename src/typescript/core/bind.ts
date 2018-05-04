@@ -280,7 +280,7 @@ export const render = (widget: any, el: Element, name?: string) => {
     const template = getTemplate(widget, name)
     connectTemplate(widget, el, template)
     el.appendChild(template.doc)
-    runAfterRenderQueue(widget, Array.from(el.children))
+    runAfterRenderQueue(widget, el)
 }
 
 export const findWidgets = <T>(widget: Widget, type: { new(...args: any[]): T }): T[] =>
