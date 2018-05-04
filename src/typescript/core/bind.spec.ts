@@ -196,7 +196,6 @@ describe('Bind', () => {
     })
 
     it('should handle complex array case', () => {
-        const clock = Sinon.useFakeTimers()
         const doc = getFragment('<div class="array-bind"/>')
         const [aw] = start(doc as any) as ArrayBindTestWidget[]
 
@@ -207,7 +206,6 @@ describe('Bind', () => {
         expect(size()).to.be.equal(0)
 
         aw.items.push(new BindItem(), new BindItem(), new BindItem(false))
-        clock.tick(1)
         expect(domChildren()).to.be.equal(2)
         expect(size()).to.be.equal(3)
         expect(activeCount()).to.be.equal(2)
@@ -219,7 +217,6 @@ describe('Bind', () => {
         aw.showActive = false
         expect(domChildren()).to.be.equal(2)
         expect(activeCount()).to.be.equal(1)
-        clock.restore()
     })
 })
 

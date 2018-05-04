@@ -52,7 +52,8 @@ const updateDomValue = (node: Element, info: TemplateTokenInfo, value: any, oldV
     return value
 }
 
-const updateDom = (widget: AnyWidget, template: ParsedTemplate, transformMap: TransformMap, oldValueMap: any[]): UpdateInfo => {
+const updateDom = (widget: AnyWidget, template: ParsedTemplate, transformMap: TransformMap,
+                   oldValueMap: any[], noArray = false): UpdateInfo => {
     let domChanged = false
     const valueMap = getCurrentValueMap(widget, template, transformMap)
     for (let info, i = 0, n = template.infos.length; i < n; i++) {
@@ -65,7 +66,9 @@ const updateDom = (widget: AnyWidget, template: ParsedTemplate, transformMap: Tr
             continue
         }
         if (value === FILTERED_ARRAY_TAG) { // filter other arrays
-            widget[info.path()].splice(0, 0)
+            if (!noArray) {
+                widget[info.path()].splice(0, 0)
+            }
             continue
         }
         const oldValue = oldValueMap[i]
@@ -242,15 +245,15 @@ export const connectTemplate = (widget: AnyWidget, el: Element, template: Parsed
     const transformMap = getTransformMap(widget, template)
 
     let res = updateDom(widget, template, transformMap, [])
-    const updateTemplate = () => {
+    const updateTemplate = (noArray = false) => {
         if (!mutedWidget.has(widget)) {
-            res = updateDom(widget, template, transformMap, res.valueMap)
+            res = updateDom(widget, template, transformMap, res.valueMap, noArray)
             if (res.change) {
                 parentNode.dispatchEvent(Update()) // let's inform parent widgets
             }
         }
     }
-    el.addEventListener(UPDATE_KEY, updateTemplate, {passive: true, capture: false})
+    el.addEventListener(UPDATE_KEY, () => updateTemplate(), {passive: true, capture: false})
     bindTemplateInfos(template, widget, updateTemplate, transformMap)
 }
 

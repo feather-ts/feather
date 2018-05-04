@@ -157,7 +157,7 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, update: Functi
                 }
             }
             if (deleteCount || added.length) {
-                setTimeout(() => update(), 0) // todo make this work without timeout
+                update(true)
             }
             patch.splice.apply(patch, patchHelper)
             for (let i = 0, n = arr.length; i < n; i++) {
