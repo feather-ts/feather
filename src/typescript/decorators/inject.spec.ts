@@ -8,7 +8,7 @@ class SingletonWidget implements Widget {
 
     init = (el: Element) => 0
 
-    @Template('')
+    @Template()
     nothing() {
         return ''
     }
@@ -18,7 +18,7 @@ class ReceiverWidget implements ArrayWidget {
 
     @Inject() singletonWidget: SingletonWidget
 
-    @Template('')
+    @Template()
     nothing() {
         return ''
     }
