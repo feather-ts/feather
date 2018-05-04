@@ -15,23 +15,23 @@
     
     <meta name="description" content="Feather TS - official Website">
     
-    <link rel="canonical" href="../examples/">
+    <link rel="canonical" href="//localhost:1313/examples/">
     
     <meta name="author" content="Andreas Herd">
     
 
-    <meta property="og:url" content="/examples/">
+    <meta property="og:url" content="//localhost:1313/examples/">
     <meta property="og:title" content="Feather TS">
-    <meta property="og:image" content="/images/logo.svg">
+    <meta property="og:image" content="//localhost:1313/images/logo.svg">
     <meta name="apple-mobile-web-app-title" content="Feather TS">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
-    <link rel="stylesheet" href="../stylesheets/application.css">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="//localhost:1313/images/favicon.ico">
+    <link rel="stylesheet" href="//localhost:1313/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="//localhost:1313/stylesheets/application.css">
     
   </head>
   <body class=" ">
@@ -48,9 +48,9 @@
     <header class="header">
         <nav id="header" aria-label="Header">
   <div id="logo">
-    <a href="../" class="project">
+    <a href="//localhost:1313/" class="project">
         
-          <img src="../images/logo.svg">
+          <img src="//localhost:1313/images/logo.svg">
         
     </a>
   </div>
@@ -257,17 +257,42 @@ myHtml() {
 
 <h2 id="loading-data">Loading data</h2>
 
-<p>This is done via @Get(), @Post, etc decorators. See the fetch sections in decorators for further details.</p>
+<p>This is done via <code>@Get()</code>, <code>@Post</code>, etc. decorators. See the fetch sections in decorators for further details.</p>
 
 <h2 id="gestures">Gestures</h2>
 
-<p>Coming soon&hellip;</p>
+<p>A pan-x handler has been implemented in <a href="https://github.com/feather-ts/ui-common/blob/master/src/typescript/pan-x.ts">ui-commons</a>.</p>
 
 <h2 id="messaging">Messaging</h2>
 
-<p>Component messaging can be achieved in various ways. When adding widgets to array, they are usually create like normal classes and a reference
-to the parent widget can be passed on. For widgets that are created from template tags (or other css selectors) one can use <code>findWidget(this, SubWidget)</code> or <code>findWidgets(this, SubWidget)</code> respectively. If you need to call your parent widget from the subwidget itself, you can pass on
-a function as an attribute <code>&lt;subwidget callback={{myWidgetFunction}}/&gt;</code>. Feather will bind this function to the widget context automatically.</p>
+<p>Component messaging can be achieved in various ways. When adding widgets to array, they are usually created like normal classes and a reference
+to the parent widget can be passed via constructors. For widgets that are created from template tags (or other css selectors)
+one can use <code>findWidget(this, SubWidget)</code> or <code>findWidgets(this, SubWidget)</code> respectively. If you need to call your parent widget
+from the subwidget itself, you can pass on a function as an attribute <code>&lt;subwidget callback={{myWidgetFunction}}/&gt;</code>.
+Feather will bind this function to the widget context automatically.</p>
+
+<h2 id="data-stores">Data stores</h2>
+
+<p>If you need to share a model between different components, you don&rsquo;t need any additional tools. Just declare an exported
+javascript object somewhere and assign it to a local component property:</p>
+
+<pre><code class="language-typescript">export const store = {data: []}    
+</code></pre>
+
+<p>Add it then to a component</p>
+
+<pre><code class="language-typescript">import {store} from './store'
+
+class MyComponent implenents Widget {
+
+  myStore = store
+
+  @Template()
+  markup () {
+    return `&lt;ul {{myStore.data}}/&gt;`
+  }
+}
+</code></pre>
 
 <h2 id="injecting-html">Injecting HTML</h2>
 
@@ -299,7 +324,7 @@ how little framework boilerplate it contains.</p>
 
     <div class="previous">
         
-        <a href="../decorators/" title="Decorators">
+        <a href="//localhost:1313/decorators/" title="Decorators">
             <span class="direction"><i class="fa fa-angle-left"></i> Previous</span>
             <div class="page">Decorators</div>
         </a>
@@ -308,7 +333,7 @@ how little framework boilerplate it contains.</p>
 
     <div class="next">
         
-        <a href="../packaging/" title="Packaging &amp; Deploying">
+        <a href="//localhost:1313/packaging/" title="Packaging &amp; Deploying">
             <span class="direction">Next <i class="fa fa-angle-right"></i></span>
             <div class="page">Packaging &amp; Deploying</div>
         </a>
@@ -318,7 +343,7 @@ how little framework boilerplate it contains.</p>
 
 
 
-
+<br>
 <a href="https://github.com/mendrik/feather" target="_blank" title="@Page(&#34;Examples&#34;) on GitHub">
     <i class="fa fa-github"></i> source code on github
 </a>
@@ -352,9 +377,9 @@ how little framework boilerplate it contains.</p>
         ga('send', 'pageview');
       </script>
     
-    <link rel="stylesheet" href="../stylesheets/highlight/solarized-dark.css">
-    <script src="../javascripts/highlight.pack.js"></script>
+    <link rel="stylesheet" href="//localhost:1313/stylesheets/highlight/solarized-dark.css">
+    <script src="//localhost:1313/javascripts/highlight.pack.js"></script>
     <script>hljs.initHighlighting();</script>
-</body>
+<script data-no-instant>document.write('<script src="/livereload.js?port=1313&mindelay=10"></' + 'script>')</script></body>
 </html>
 

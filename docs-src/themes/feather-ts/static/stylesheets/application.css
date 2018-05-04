@@ -472,3 +472,11 @@ button {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+.note {
+    background-color: #59426a;
+    color: white;
+    padding: 1px 20px;
+    border-left: 5px solid #df7100;
+    border-radius: 0 10px 10px 0;
+}

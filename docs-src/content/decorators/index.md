@@ -24,6 +24,14 @@ If you have a component flagged as a singleton in @Construct() you can inject it
 note that the property name must match the decapitalized class name of your widget. If the singleton is called MyApp, then
 you should use `@Inject() myApp: MyApp`.
 
+## InArray
+
+`@InArray()`
+
+Similar to `@Inject` you can inject the array that is holding to its children. Sometimes
+it might be useful to have access to the siblings for within the child widget. 
+You can name the property as you wish, i.e. `@InArray() parentArray: Item[]`
+
 ## Template
 
 `@Template(name?: string)`
@@ -227,10 +235,10 @@ export class Responsive implements Widget {
 `@ElementQuery(fn: (element: Element) => boolean, ...events: string[])`
 
 Similar to MediaQueries you can write responsive components reacting to an element query. The query function is 
-re-evaluated when one of the window attached `events` from the parameter list triggers, defaults to `resize`. 
-But you can change this to a scroll or orientation change for example. Unlike media queries element queries can
-only run when the component has been mounted to the dom. Make sure your render method is neutral enough to
-avoid any content flicker when one of the element queries triggers. 
+re-evaluated when one of the `window` attached `events` from the parameter list triggers. If none are given it 
+triggers on window resize, but you can change this to a scroll or orientation event for example. Unlike media 
+queries element queries can only run when the component has been mounted to the dom. Make sure your render method 
+is neutral enough to avoid any content flicker when one of the element queries triggers. 
 
 ## Router
 

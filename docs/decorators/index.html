@@ -15,23 +15,23 @@
     
     <meta name="description" content="Feather TS - official Website">
     
-    <link rel="canonical" href="../decorators/">
+    <link rel="canonical" href="//localhost:1313/decorators/">
     
     <meta name="author" content="Andreas Herd">
     
 
-    <meta property="og:url" content="/decorators/">
+    <meta property="og:url" content="//localhost:1313/decorators/">
     <meta property="og:title" content="Feather TS">
-    <meta property="og:image" content="/images/logo.svg">
+    <meta property="og:image" content="//localhost:1313/images/logo.svg">
     <meta name="apple-mobile-web-app-title" content="Feather TS">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,600,700" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-    <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
-    <link rel="stylesheet" href="../stylesheets/application.css">
+    <link rel="shortcut icon" type="image/x-icon" href="//localhost:1313/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="//localhost:1313/images/favicon.ico">
+    <link rel="stylesheet" href="//localhost:1313/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="//localhost:1313/stylesheets/application.css">
     
   </head>
   <body class=" ">
@@ -48,9 +48,9 @@
     <header class="header">
         <nav id="header" aria-label="Header">
   <div id="logo">
-    <a href="../" class="project">
+    <a href="//localhost:1313/" class="project">
         
-          <img src="../images/logo.svg">
+          <img src="//localhost:1313/images/logo.svg">
         
     </a>
   </div>
@@ -178,6 +178,14 @@ widget in its template, the referenced one must be imported first. Without an im
 <p>If you have a component flagged as a singleton in @Construct() you can inject it into any other component via @Inject. Please
 note that the property name must match the decapitalized class name of your widget. If the singleton is called MyApp, then
 you should use <code>@Inject() myApp: MyApp</code>.</p>
+
+<h2 id="inarray">InArray</h2>
+
+<p><code>@InArray()</code></p>
+
+<p>Similar to <code>@Inject</code> you can inject the array that is holding to its children. Sometimes
+it might be useful to have access to the siblings for within the child widget.
+You can name the property as you wish, i.e. <code>@InArray() parentArray: Item[]</code></p>
 
 <h2 id="template">Template</h2>
 
@@ -380,6 +388,16 @@ export class Responsive implements Widget {
 }
 </code></pre>
 
+<h2 id="elementquery">ElementQuery</h2>
+
+<p><code>@ElementQuery(fn: (element: Element) =&gt; boolean, ...events: string[])</code></p>
+
+<p>Similar to MediaQueries you can write responsive components reacting to an element query. The query function is
+re-evaluated when one of the <code>window</code> attached <code>events</code> from the parameter list triggers. If none are given it
+triggers on window resize, but you can change this to a scroll or orientation event for example. Unlike media
+queries element queries can only run when the component has been mounted to the dom. Make sure your render method
+is neutral enough to avoid any content flicker when one of the element queries triggers.</p>
+
 <h2 id="router">Router</h2>
 
 <p><code>@Route('/:path')</code></p>
@@ -438,7 +456,7 @@ toggleAll() {
 
     <div class="previous">
         
-        <a href="../get-started/" title="Getting started">
+        <a href="//localhost:1313/get-started/" title="Getting started">
             <span class="direction"><i class="fa fa-angle-left"></i> Previous</span>
             <div class="page">Getting started</div>
         </a>
@@ -447,7 +465,7 @@ toggleAll() {
 
     <div class="next">
         
-        <a href="../examples/" title="Examples">
+        <a href="//localhost:1313/examples/" title="Examples">
             <span class="direction">Next <i class="fa fa-angle-right"></i></span>
             <div class="page">Examples</div>
         </a>
@@ -457,7 +475,7 @@ toggleAll() {
 
 
 
-
+<br>
 <a href="https://github.com/mendrik/feather" target="_blank" title="@Page(&#34;Decorators&#34;) on GitHub">
     <i class="fa fa-github"></i> source code on github
 </a>
@@ -491,9 +509,9 @@ toggleAll() {
         ga('send', 'pageview');
       </script>
     
-    <link rel="stylesheet" href="../stylesheets/highlight/solarized-dark.css">
-    <script src="../javascripts/highlight.pack.js"></script>
+    <link rel="stylesheet" href="//localhost:1313/stylesheets/highlight/solarized-dark.css">
+    <script src="//localhost:1313/javascripts/highlight.pack.js"></script>
     <script>hljs.initHighlighting();</script>
-</body>
+<script data-no-instant>document.write('<script src="/livereload.js?port=1313&mindelay=10"></' + 'script>')</script></body>
 </html>
 

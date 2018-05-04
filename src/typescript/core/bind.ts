@@ -8,6 +8,7 @@ import {createComputedListener} from '../decorators/computed'
 import {cleanUp} from './cleanup'
 import {allChildNodes} from '../utils/dom'
 import {camelCaseFromHyphens} from '../utils/strings'
+import {injectArray} from '../decorators/inject'
 
 type TransformMap = { [k: string]: (val: any) => any }
 
@@ -149,6 +150,7 @@ const bindArray = (array: ArrayWidget[], parentNode: Element, widget: AnyWidget,
         parentNode,
         update,
         (item) => {
+            injectArray(item, array)
             const template = getTemplate(item, templateName()),
                   node     = template.nodes[1]
             runConstructorQueue(item, node)
@@ -280,6 +282,8 @@ export const render = (widget: any, el: Element, name?: string) => {
     el.appendChild(template.doc)
     runAfterRenderQueue(widget, Array.from(el.children))
 }
+
+export const removeFromSubwidgets = (widget: Widget) => subWidgets.delete(widget)
 
 export const findWidgets = <T>(widget: Widget, type: { new(...args: any[]): T }): T[] =>
     subWidgets.get(widget).filter(t => Object.getPrototypeOf(t) === type.prototype)

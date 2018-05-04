@@ -1,6 +1,7 @@
 import {registerCleanUp} from '../core/cleanup'
 import {decapitalize} from '../utils/strings'
 import {ensure} from '../utils/objects'
+import {removeFromSubwidgets} from '../core/bind'
 
 export const ConstructRegistry: { [key: string]: {} } = {}
 export const Singletons: { [key: string]: {} } = {}
@@ -43,6 +44,7 @@ export const Construct = (conf: ConstructConf) => (proto: any) => {
             Singletons[name] = widget
             registerCleanUp(node, () => {
                 delete Singletons[name]
+                removeFromSubwidgets(widget)
             })
         }
         widget.init(node)

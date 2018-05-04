@@ -41,3 +41,11 @@ any dogmatic constructs.
 
 Feather comes with an own [IDE plugin](https://plugins.jetbrains.com/plugin/9992-feather-ts-code-support) to help you with syntax 
 highlighting and mistyped references. Grab it from the link or the official plugin repository.
+
+{{< note >}}
+Please use Feather-Ts as an inspiration or for hobby projects only. If you want to have something production-ready,
+I would recommend a framework with a bigger community and an extensive documentation, for example [React](https://reactjs.org/),
+[Angular](https://angular.io/) or [Vue](https://vuejs.org/).
+{{< /note >}}
+
+

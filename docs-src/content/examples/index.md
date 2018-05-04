@@ -101,15 +101,41 @@ myHtml() {
 Those are done with @MediaQuery decorators and you will find an exmaple over there.
 
 ## Loading data
-This is done via @Get(), @Post, etc decorators. See the fetch sections in decorators for further details.
+This is done via `@Get()`, `@Post`, etc. decorators. See the fetch sections in decorators for further details.
 
 ## Gestures
-Coming soon...
+A pan-x handler has been implemented in [ui-commons](https://github.com/feather-ts/ui-common/blob/master/src/typescript/pan-x.ts).
 
 ## Messaging
-Component messaging can be achieved in various ways. When adding widgets to array, they are usually create like normal classes and a reference 
-to the parent widget can be passed on. For widgets that are created from template tags (or other css selectors) one can use `findWidget(this, SubWidget)` or `findWidgets(this, SubWidget)` respectively. If you need to call your parent widget from the subwidget itself, you can pass on
-a function as an attribute `<subwidget callback={{myWidgetFunction}}/>`. Feather will bind this function to the widget context automatically.
+Component messaging can be achieved in various ways. When adding widgets to array, they are usually created like normal classes and a reference 
+to the parent widget can be passed via constructors. For widgets that are created from template tags (or other css selectors) 
+one can use `findWidget(this, SubWidget)` or `findWidgets(this, SubWidget)` respectively. If you need to call your parent widget 
+from the subwidget itself, you can pass on a function as an attribute `<subwidget callback={{myWidgetFunction}}/>`. 
+Feather will bind this function to the widget context automatically.
+
+## Data stores
+
+If you need to share a model between different components, you don't need any additional tools. Just declare an exported 
+javascript object somewhere and assign it to a local component property:
+
+```typescript
+export const store = {data: []}    
+```
+Add it then to a component 
+```typescript
+import {store} from './store'
+
+class MyComponent implenents Widget {
+
+  myStore = store
+
+  @Template()
+  markup () {
+    return `<ul {{myStore.data}}/>`
+  }
+}
+```
+
 
 ## Injecting HTML
 This can be achieved with a simple helper that call render, used like so `<injected-html html="{{myhtmlprop}}"/>`:
