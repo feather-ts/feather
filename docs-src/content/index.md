@@ -42,10 +42,38 @@ any dogmatic constructs.
 Feather comes with an own [IDE plugin](https://plugins.jetbrains.com/plugin/9992-feather-ts-code-support) to help you with syntax 
 highlighting and mistyped references. Grab it from the link or the official plugin repository.
 
+## Differences to other frameworks
+
+Foremost Feather-Ts is complete: it handles data observables, routing and component 
+messaging out of the box, provides tools to fetch REST data from the 
+server and offers convenient ways to write responsive components.
+
+Another big difference to virtual dom libraries is that your components can
+be mixed together. Usually frameworks map from a custom tag to a component class.
+In feather you can bind components to CSS selectors, which means you can split
+different logical parts into own components and mix them together in a single 
+tag: `<div class="clickable open-in-viewport hide-on-scroll">` where each of the 
+classes will encapsulate own behavioral logic.
+
+Furthermore Feather components don't have to extend from a framework class. There
+are only two interfaces to implement from and the data models are observed as they
+come without any library wrappers.
+
+And lastly the template language is logic-less, which makes the templates easy
+to read, unlike jsx that clutters over time with maps, ternary operators and 
+passed down properties. You can also render the same component with different 
+templates. The binding syntax is very simple and you don't need to learn any 
+new custom attributes for it. 
+
+Feel free to inspect the following [code](https://github.com/feather-ts/todomvc/blob/master/src/typescript/)
+and see for yourself how much you understand of it, without having even read the
+full documentation.
+
+## Production readiness
+
 {{< note >}}
 Please use Feather-Ts as an inspiration or for hobby projects only. If you want to have something production-ready,
 I would recommend a framework with a bigger community and an extensive documentation, for example [React](https://reactjs.org/),
 [Angular](https://angular.io/) or [Vue](https://vuejs.org/).
 {{< /note >}}
-
 

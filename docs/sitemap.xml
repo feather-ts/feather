@@ -3,78 +3,78 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>//localhost:1313/</loc>
+    <loc>/</loc>
     <lastmod>2016-04-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>//localhost:1313/get-started/</loc>
+    <loc>/get-started/</loc>
     <lastmod>2016-04-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>//localhost:1313/decorators/</loc>
+    <loc>/decorators/</loc>
     <lastmod>2016-04-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>//localhost:1313/examples/</loc>
+    <loc>/examples/</loc>
     <lastmod>2016-04-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>//localhost:1313/packaging/</loc>
+    <loc>/packaging/</loc>
     <lastmod>2016-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>//localhost:1313/help/</loc>
+    <loc>/help/</loc>
     <lastmod>2016-04-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>//localhost:1313/categories/</loc>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/decorators/</loc>
+    <loc>/decorators/</loc>
     <lastmod>2016-04-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/examples/</loc>
+    <loc>/examples/</loc>
     <lastmod>2016-04-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/</loc>
+    <loc>/</loc>
     <lastmod>2016-04-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/get-started/</loc>
+    <loc>/get-started/</loc>
     <lastmod>2016-04-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/help/</loc>
+    <loc>/help/</loc>
     <lastmod>2016-04-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/packaging/</loc>
+    <loc>/packaging/</loc>
     <lastmod>2016-04-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//localhost:1313/tags/</loc>
+    <loc>/tags/</loc>
     <priority>0</priority>
   </url>
   

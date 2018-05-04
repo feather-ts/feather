@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Helps on Feather TS</title>
-    <link>//localhost:1313/help/</link>
+    <link>/help/</link>
     <description>Recent content in Helps on Feather TS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="//localhost:1313/help/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/help/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Help</title>
-      <link>//localhost:1313/help/</link>
+      <link>/help/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/help/</guid>
+      <guid>/help/</guid>
       <description>IE11 support Feather-ts comes without old browser support. However it does work with IE11, if polyfills are provided. You will need es6 shims, Promise, Fetch and CustomEvent polyfills.
 Bindings and DOM writes Feather has no virtual dom, but since the templates are logicless the dom writes are optimized in place. You get maximum performance without the overhead of diffing parts of the DOM tree. Because of that feather also plays nicely with others and doesn&amp;rsquo;t care if the DOM is modified by external scripts.</description>
     </item>

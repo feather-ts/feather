@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Packagings on Feather TS</title>
-    <link>//localhost:1313/packaging/</link>
+    <link>/packaging/</link>
     <description>Recent content in Packagings on Feather TS</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 02 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="//localhost:1313/packaging/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/packaging/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Packaging &amp; Deploying</title>
-      <link>//localhost:1313/packaging/</link>
+      <link>/packaging/</link>
       <pubDate>Sat, 02 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/packaging/</guid>
+      <guid>/packaging/</guid>
       <description>Packaging You can use browserify, parcel-bundler or any other existing technology to pack and bundle feather applications.
 Imports Right you can use all feather-ts parts by importing the files directly from NPM:
 import {Construct} from &#39;@feather-ts/feather-ts/dist/decorators/construct&#39;
