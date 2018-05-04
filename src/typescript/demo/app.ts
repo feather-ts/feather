@@ -25,13 +25,17 @@ export class MyApp implements Widget {
     @Template()
     markup() {
         return `
+<!--
         <string-bindings/>
         <boolean-bindings/>
+-->
         <array-bindings/>
+<!--
         <component-tags/>
         <template-hooks/>
         <responsive/>
         <events/>
+-->
         `
     }
 

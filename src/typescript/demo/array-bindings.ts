@@ -32,6 +32,7 @@ export class ArrayBindings implements Widget {
     @On({event: 'click', selector: '#change-view'})
     onNewValueClick() {
         this.dynamic = this.dynamic === 'uppercase' ? 'lowercase' : 'uppercase'
+        console.log(this.items.length)
     }
 
     @On({event: 'click', selector: '.add'})
