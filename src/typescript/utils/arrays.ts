@@ -1,6 +1,6 @@
 import {ArrayWidget} from '../decorators/construct'
 import {cleanUp, registerCleanUp} from '../core/cleanup'
-import {isUndef} from './functions'
+import {isDef, isUndef} from './functions'
 
 type   MethodKey = 'sort' | 'splice'
 const observers = new WeakMap<any[], ArrayListener<any>[]>()
@@ -146,7 +146,9 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, update: Functi
                     if (node && node.parentElement === el) {
                         el.removeChild(node)
                     }
-                    cleanUp(node)
+                    if (isDef(node)) {
+                        cleanUp(node)
+                    }
                     elementMap.delete(del)
                 }
             }

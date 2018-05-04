@@ -38,9 +38,5 @@ export default {
                 clean: true
             }
         }),
-    ],
-    exclude: [
-        "docs/**",
-        "**/*.spec.ts"
     ]
 }

@@ -1,12 +1,14 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.79",
+    "version": "2.0.82",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
-    "main": "dist/feather.js",
+    "main": "lib/feather.js",
+    "module": "lib/feather.es6.js",
     "files": [
-        "dist"
+        "dist",
+        "lib"
     ],
     "author": "Andreas Herd",
     "license": "ISC",
@@ -52,7 +54,7 @@
         "docs": "(cd docs-src) && (hugo -d ../docs)",
         "docs:watch": "(cd docs-src) && (hugo -w -d ../docs server)",
         "bundle": "rollup -c",
-        "prepare": "npm-run-all clean npm:version feather:compile",
+        "prepare": "npm-run-all clean npm:version feather:compile bundle",
         "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"
     }
 }
