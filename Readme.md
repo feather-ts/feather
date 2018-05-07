@@ -1,3 +1,5 @@
+<img src="https://avatars2.githubusercontent.com/u/38440607?s=150&v=4" width="150">
+
 ### Feather-ts
 
 <img src="https://travis-ci.org/feather-ts/feather.svg?branch=master" width="90" height="20">
