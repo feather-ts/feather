@@ -178,6 +178,10 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, update: Functi
         }
     }
     listener.splice(0, 0, arr, [])
-    registerCleanUp(el, () => observers.delete(arr))
+    registerCleanUp(el, () => {
+        if (observers.has(arr)) {
+            removeFromArray(observers.get(arr), [listener])
+        }
+    })
     return listener
 }
