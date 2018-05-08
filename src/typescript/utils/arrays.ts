@@ -183,5 +183,6 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, update: Functi
             removeFromArray(observers.get(arr), [listener])
         }
     })
+    observeArray(arr, listener)
     return listener
 }
