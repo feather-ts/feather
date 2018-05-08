@@ -61,7 +61,7 @@ markUp() {
   <span>Size of the array: {{myArray:size}}</span>
 }
 
-onlyEven = () => (el: ArrayItem, idx: number) => idx % 2 == 0
+onlyEven = () => (el: ArrayItem, idx: number) => idx % 2 === 0
 size = (arr: any[]) => arr.length // or this.myArray.length
 ```
 
@@ -88,10 +88,10 @@ When strings are bound to attributes or inside a class attribute, each will be r
 ### Special attributes
 Binding to attributes `checked`, `value` or `selectedIndex` will set the bound property value via javascript and not via dom.
 
-### template attribute
+### Template attribute
 As mentioned in array bindings already, there is the `template` attribute to tell feather how to render elements in a list. 
 To make things even more flexible you can assign a dynamic binding to the template attribute: `template={{view}}`. 
-Now whenever the view property changes the array will be re-rendered. One can also add the template attribute to any
+Now whenever the `view` property changes the array will be re-rendered. One can also add the template attribute to any
 other tag and inject other templates into the current one.
 
 ## Computed
