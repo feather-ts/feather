@@ -22,14 +22,14 @@ widget in its template, the referenced one must be imported first. Without an im
 
 Feather generates the entire component hierarchy off-screen in document fragments for performance reasons. If one needs
 to evauate values, such as bounding client rects, one needs to know when the component has been attached to the visible DOM.
-Methods decorated with this will be called when exactly this has happened. Array widget will call the method every time
+Methods decorated with this will be called when exactly this has happened. Array widgets will call the method every time
 they have been added or re-added to their visible array containers.
 
 ## Inject
 
 `@Inject()`
 
-If you have a component flagged as a singleton in @Construct() you can inject it into any other component via @Inject. Please
+If a component is flagged as a singleton in @Construct() it can be inject into any other component via @Inject. Please
 note that the property name must match the decapitalized class name of your widget. If the singleton is called MyApp, then
 you should use `@Inject() myApp: MyApp`.
 
@@ -37,9 +37,8 @@ you should use `@Inject() myApp: MyApp`.
 
 `@InArray()`
 
-Similar to `@Inject` you can inject the array that is holding to its children. Sometimes
-it might be useful to have access to the siblings for within the child widget. 
-You can name the property as you wish, i.e. `@InArray() parentArray: Item[]`
+Similar to `@Inject` you can inject the parent array to its children. Sometimes it might be useful to have access to the 
+siblings from within the child widget. You can name the property as you wish, i.e. `@InArray() parentArray: Item[]`
 
 ## Template
 
