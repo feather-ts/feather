@@ -16,6 +16,15 @@ Each widget should implement the interface `Widget` or `ArrayWidget` respectivel
 widget in its template, the referenced one must be imported first. Without an import the
 @Construct() decorator is never executed!                
 
+## AfterMount
+
+`@AfterMount()`
+
+Feather generates the entire component hierarchy off-scree in document fragments for performance reasons. If one needs
+to evauate values, such as bounding client rects, one needs to know when the component has been attached to the visible DOM.
+Methods decorated with this will be called when exactly this has happened. Array widget will call the method every time
+they have been added or re-added to their visible array containers.
+
 ## Inject
 
 `@Inject()`
