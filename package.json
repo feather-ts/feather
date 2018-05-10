@@ -1,6 +1,6 @@
 {
     "name": "@feather-ts/feather-ts",
-    "version": "2.0.92",
+    "version": "2.0.93",
     "description": "A light-weight component framework written in typescript",
     "repository": "git@github.com:Feather-Ts/feather.git",
     "types": "dist/feather.d.ts",
@@ -40,7 +40,8 @@
         "stylelint": "9.2.0",
         "ts-node": "6.0.1",
         "tslint": "5.9.1",
-        "typescript": "2.8.3"
+        "typescript": "2.8.3",
+        "uglify-js": "^3.3.24"
     },
     "publishConfig": {
         "access": "public"
@@ -53,9 +54,10 @@
         "feather:watch": "tsc -d -w",
         "docs": "(cd docs-src) && (hugo -d ../docs)",
         "docs:watch": "(cd docs-src) && (hugo -w -d ../docs server)",
+        "bundle:minify": "uglifyjs lib/feather.js --source-map content=lib/feather.js.map,url=feather.min.js.map,includeSources,root=src/typescript -c -o lib/feather.min.js",
         "bundle:watch": "rollup -c -w",
         "bundle": "rollup -c",
-        "prepare": "npm-run-all clean npm:version feather:compile bundle",
+        "prepare": "npm-run-all clean npm:version feather:compile bundle bundle:minify",
         "test": "mocha --require ts-node/register --require src/javascript/mocha-setup.js src/typescript/**/*.spec.ts"
     }
 }

@@ -45,7 +45,6 @@ const notify = (arr, method: MethodKey, args: any[]) => {
 
 function duckPunchSplice<T>(arr: any) {
     const old = arr.splice
-    // add docs that removing and re-adding elements to the same array kills event listeners
     arr.splice = function (index, deleteCount) {
         const addedItems   = [].slice.call(arguments, 2),
               deletedItems = old.apply(arr, arguments)
@@ -81,7 +80,7 @@ export const range = (start: number, end: number): number[] => {
 
 // essentially we can reduce array modifying functions to two implementations: sort and splice
 export const observeArray = <T>(arr: T[], listener: ArrayListener<T>) => {
-    // replace this in the future with es6 proxies
+    // replace this in the future with es6 proxies?
     const listeners = observers.get(arr)
     if (!listeners) {
         observers.set(arr, [listener])

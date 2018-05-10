@@ -241,6 +241,12 @@ markUp() {
 
 <p>This will render the same array twice, once with only even elements and via template A and once the full array where each child is rendered with template B.</p>
 
+<blockquote>
+<p>Currently feather cannot intercept index-based array access like this: <code>myArr[i] = new ChildWidget()</code>. Please use
+splice instead: <code>myArr.splice(i, 1, new ChildWidget())</code>. There are plans to use array proxies in the
+future which will allow this.</p>
+</blockquote>
+
 <h3 id="boolean-attribute-bindings">Boolean attribute bindings</h3>
 
 <p>A special case are boolean properties bound in attributes: <code>&lt;span hidden=&quot;{{isHidden}}&quot;/&gt;</code>. If they are true the attribute is a valueless property:
