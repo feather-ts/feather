@@ -1,4 +1,4 @@
-import {addToRenderQueue, AnyWidget, EnhancedConstructor} from './construct'
+import {addToAfterMount, AnyWidget, EnhancedConstructor} from './construct'
 import {registerCleanUp} from '../core/cleanup'
 
 const options = {passive: true}
@@ -20,10 +20,12 @@ export const ElementQuery = (fn: (element: Element) => boolean, ...events: strin
     if (!events || events.length === 0) {
         events = ['resize']
     }
-    addToRenderQueue(proto.constructor as EnhancedConstructor, (widget: AnyWidget, node: Element) => {
-        const handler = changeHandler(widget, node.firstElementChild, method, fn)
-        events.forEach(event => window.addEventListener(event, handler, options as any)) // change this to have only one window event
-        registerCleanUp(node, () => events.forEach(event => window.removeEventListener(event, handler, options as any)))
-        handler(null)
+    addToAfterMount(proto.constructor as EnhancedConstructor, (widget: AnyWidget, node: Element) => {
+        if (document.documentElement.contains(node)) {
+            const handler = changeHandler(widget, node, method, fn)
+            events.forEach(event => window.addEventListener(event, handler, options as any)) // change this to have only one window event
+            registerCleanUp(node, () => events.forEach(event => window.removeEventListener(event, handler, options as any)))
+            handler(null)
+        }
     })
 }

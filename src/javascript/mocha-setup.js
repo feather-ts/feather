@@ -1,5 +1,6 @@
 const jsdom = require('jsdom')
 const Storage = require('node-storage-shim')
+
 require('isomorphic-fetch')
 const matchMediaPolyfill = require('mq-polyfill').default
 const {JSDOM} = jsdom
@@ -7,7 +8,7 @@ const {JSDOM} = jsdom
 let window = new JSDOM('<!doctype html><html><body></body></html>', {url: "https://example.org/"}).window
 matchMediaPolyfill(window)
 
-const copy = ["document", "location", "history", "matchMedia", "MutationObserver",
+const copy = ["document", "location", "history", "matchMedia",
     "CustomEvent", "Node", "NodeFilter", "MouseEvent", "DOMParser"]
 
 global.window = window

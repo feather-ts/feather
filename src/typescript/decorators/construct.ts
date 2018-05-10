@@ -1,6 +1,9 @@
 import {registerCleanUp} from '../core/cleanup'
 import {decapitalize} from '../utils/strings'
 import {ensure} from '../utils/objects'
+import {removeFromArray} from '../utils/arrays'
+
+export const MOUNT_EVENT = '__mounted__'
 
 export const ConstructRegistry: { [key: string]: {} } = {}
 export const Singletons: { [key: string]: {} } = {}
@@ -30,6 +33,7 @@ export const start = (root: Element | DocumentFragment = document.documentElemen
             const widget = new (Function.prototype.bind.apply(ConstructRegistry[selector]))
             runConstructorQueue(widget, node)
             createdWidgets.push(widget)
+            runAfterDomMount(node)
         })
     })
     return createdWidgets
@@ -50,26 +54,41 @@ export const Construct = (conf: ConstructConf) => (proto: any) => {
 }
 
 const queue = new WeakMap<EnhancedConstructor, Function[]>()
-const renderQueue = new WeakMap<EnhancedConstructor, Function[]>()
 
 export const addToConstructorQueue = (constructor: EnhancedConstructor, func: Function) => {
     ensure(queue, constructor, [func])
 }
 
-export const addToRenderQueue = (constructor: EnhancedConstructor, func: Function) => {
-    ensure(renderQueue, constructor, [func])
+interface AfterRenderCallback {
+    node: Element,
+    function: Function
 }
+
+const afterRenderQueue: AfterRenderCallback[] = []
+
+export const addToAfterMount = (constructor: EnhancedConstructor, func: Function) => {
+    addToConstructorQueue(constructor, (widget, node) => {
+        const callback = {
+            node,
+            function: () => func(widget, node)
+        }
+        afterRenderQueue.push(callback)
+        registerCleanUp(node, () => removeFromArray(afterRenderQueue, [callback]))
+    })
+}
+
+export const runAfterDomMount = (root: Node) => {
+    afterRenderQueue.forEach(cb => {
+        if (root.contains(cb.node)) {
+            cb.function()
+        }
+    })
+}
+
 
 export const runConstructorQueue = (widget: AnyWidget, node: Node) => {
     const widgetQueue = queue.get(Object.getPrototypeOf(widget).constructor) || []
     for (let i = 0, n = widgetQueue.length; i < n; i++) { // for performance
-        widgetQueue[i].call(widget, widget, node)
-    }
-}
-
-export const runAfterRenderQueue = (widget: AnyWidget, node: Node) => {
-    const widgetQueue = renderQueue.get(Object.getPrototypeOf(widget).constructor) || []
-    for (let i = 0, n = widgetQueue.length; i < n; i++) { // for performance use for-loops
         widgetQueue[i].call(widget, widget, node)
     }
 }

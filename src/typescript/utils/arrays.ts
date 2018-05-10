@@ -1,4 +1,4 @@
-import {ArrayWidget} from '../decorators/construct'
+import {ArrayWidget, runAfterDomMount} from '../decorators/construct'
 import {cleanUp, registerCleanUp} from '../core/cleanup'
 import {isDef, isUndef} from './functions'
 
@@ -169,6 +169,7 @@ export function domArrayListener(arr: ArrayWidget[], el: Element, update: Functi
                     const nextVisible = nodeVisible.indexOf(true, i),
                           refNode     = ~nextVisible ? elementMap.get(arr[nextVisible]) : undefined
                     el.insertBefore(itemNode, refNode)
+                    runAfterDomMount(el)
                 }
                 else if (!patch[i] && nodeVisible[i] && itemNode.parentNode === el) {
                     el.removeChild(itemNode)
